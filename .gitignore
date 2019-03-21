@@ -103,6 +103,9 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# SO related files
+*.ini
+
 # image files
 *.jp[e]g
 *.JPG
