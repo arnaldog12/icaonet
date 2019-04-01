@@ -114,3 +114,4 @@ venv.bak/
 
 # custom
 data/Rubbish/
+*.pkl
