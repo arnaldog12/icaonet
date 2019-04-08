@@ -57,3 +57,6 @@ class PhotographicRequirements():
 
     def __str__(self):
         return '\n'.join([req.__str__() for req in self.__list_reqs])
+
+    def values(self):
+        return [requirement.value for requirement in self.__list_reqs]
