@@ -16,7 +16,7 @@ def image_batch(batch, y_true, y_pred=None, labels=None, n_cols=10, figsize=(16,
         plt.axis('off')
     plt.tight_layout()
 
-def plot_confusion_matrix(cm, target_names, title='Confusion matrix', cmap=None, normalize=False, figsize=(8, 6)):
+def plot_confusion_matrix(cm, target_names, title='Confusion matrix', cmap=None, normalize=False, figsize=(8, 6), fontsize=16):
     """
     given a sklearn confusion matrix (cm), make a nice plot
 
@@ -63,11 +63,12 @@ def plot_confusion_matrix(cm, target_names, title='Confusion matrix', cmap=None,
         
     plt.imshow(norm if normalize else cm, interpolation='nearest', cmap=cmap)
 
-    thresh = norm.max() / 2 if normalize else cm.max() / 2
+    thresh = norm.max() / 1.5 if normalize else cm.max() / 1.5
     for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
         plt.text(j, i, "{:,}".format(cm[i, j]),
-                     horizontalalignment="center",
-                     color="white" if cm[i, j] > thresh or norm[i, j] > thresh else "black")
+                     horizontalalignment="center", 
+                     fontsize=fontsize,
+                     color="white" if cm[i, j] > thresh and norm[i, j] > thresh else "black")
 
     plt.tight_layout()
     plt.ylabel('True label')
