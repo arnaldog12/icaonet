@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies>IlmImf.lib;IlmImfd.lib;ippicvmt.lib;ippiw.lib;ippiwd.lib;ittnotify.lib;ittnotifyd.lib;libjasper.lib;libjasperd.lib;libjpeg-turbo.lib;libjpeg-turbod.lib;libpng.lib;libpngd.lib;libprotobuf.lib;libprotobufd.lib;libtiff.lib;libtiffd.lib;libwebp.lib;libwebpd.lib;opencv_calib3d342.lib;opencv_calib3d342d.lib;opencv_core342.lib;opencv_core342d.lib;opencv_dnn342.lib;opencv_dnn342d.lib;opencv_dnn_objdetect342.lib;opencv_dnn_objdetect342d.lib;opencv_features2d342.lib;opencv_features2d342d.lib;opencv_flann342.lib;opencv_flann342d.lib;opencv_highgui342.lib;opencv_highgui342d.lib;opencv_imgcodecs342.lib;opencv_imgcodecs342d.lib;opencv_imgproc342.lib;opencv_imgproc342d.lib;opencv_ml342.lib;opencv_ml342d.lib;opencv_objdetect342.lib;opencv_objdetect342d.lib;opencv_photo342.lib;opencv_photo342d.lib;opencv_shape342.lib;opencv_shape342d.lib;opencv_stitching342.lib;opencv_stitching342d.lib;opencv_superres342.lib;opencv_superres342d.lib;opencv_video342.lib;opencv_video342d.lib;opencv_videoio342.lib;opencv_videoio342d.lib;opencv_videostab342.lib;opencv_videostab342d.lib;opencv_ximgproc342.lib;opencv_ximgproc342d.lib;zlib.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\opencv\opencv3.4.2\build\x64\vc14\staticlib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>
