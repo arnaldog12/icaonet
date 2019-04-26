@@ -23,8 +23,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Eye.h" />
+    <ClInclude Include="include\FileUtils.h" />
     <ClInclude Include="include\FvcHeader.h" />
-    <ClInclude Include="include\MRKFile.h" />
+    <ClInclude Include="include\OutputFile.h" />
     <ClInclude Include="include\PhotographicRequirements.h" />
     <ClInclude Include="include\Requirement.h" />
   </ItemGroup>
@@ -93,6 +94,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <TargetName>Check</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -29,10 +29,13 @@
     <ClInclude Include="include\Requirement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\MRKFile.h">
+    <ClInclude Include="include\Eye.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Eye.h">
+    <ClInclude Include="include\FileUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OutputFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
