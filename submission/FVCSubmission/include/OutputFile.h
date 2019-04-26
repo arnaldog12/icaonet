@@ -26,14 +26,27 @@ public:
 
 		cv::Point leftEyeCenter = leftEye->center();
 		cv::Point rightEyeCenter = rightEye->center();
-		outputFile << cv::format(" %d %d %d %d ", leftEyeCenter.x, leftEyeCenter.y, rightEyeCenter.y, rightEyeCenter.x);
+		outputFile << cv::format(" %d %d %d %d", leftEyeCenter.x, leftEyeCenter.y, rightEyeCenter.y, rightEyeCenter.x);
 		for (Requirement *req : reqs->getRequirements())
-			outputFile << cv::format("%d ", req->value);
+			outputFile << " " << reqToString(req);
 		outputFile << std::endl;
 	}
 
 	void close()
 	{
 		this->outputFile.close();
+	}
+
+private:
+	static std::string reqToString(Requirement *req)
+	{
+		switch (req->value)
+		{
+		case REQUIREMENT_VALUE::COMPLIANT:
+		case REQUIREMENT_VALUE::NON_COMPLIANT:		return cv::format("%d", req->complianceDegree);
+		case REQUIREMENT_VALUE::DUMMY:				return "?";
+		case REQUIREMENT_VALUE::UNABLE_TO_EVALUATE: return "-";
+		default: return "!";
+		}
 	}
 };
