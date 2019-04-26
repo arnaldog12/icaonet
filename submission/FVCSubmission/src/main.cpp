@@ -29,7 +29,6 @@ int main(int argc, char *argv[])
 		PhotographicRequirements *reqs = new PhotographicRequirements();
 
 
-
 		delete rightEye;
 		delete leftEye;
 		delete reqs;
