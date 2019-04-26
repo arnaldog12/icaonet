@@ -18,7 +18,7 @@ public:
 	void write(std::string imageName, int retVal, Eye *rightEye = nullptr, Eye *leftEye = nullptr, PhotographicRequirements *reqs = nullptr)
 	{
 		outputFile << cv::format("%s %d", FileUtils::getFileName(imageName), retVal);
-		if (retVal != SUCCESS)
+		if (retVal != FVC_SUCCESS)
 		{
 			outputFile << std::endl;
 			return;

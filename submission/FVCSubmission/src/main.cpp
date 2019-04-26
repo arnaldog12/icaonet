@@ -2,7 +2,10 @@
 #include "FvcHeader.h"
 #include "OutputFile.h"
 #include "FileUtils.h"
+#include "deeplearning/TensorflowGraph.h"
 #include "opencv2/highgui/highgui.hpp"
+
+using deeplearning::TensorflowGraph;
 
 int checkArgs(int argc);
 int checkImageFormat(std::string fileName);
@@ -10,7 +13,7 @@ int checkImageContent(cv::Mat im);
 
 int main(int argc, char *argv[]) 
 {
-	int retVal = SUCCESS;
+	int retVal = FVC_SUCCESS;
 	retVal = checkArgs(argc);
 
 	std::string faceImageFile(argv[1]);
@@ -22,7 +25,7 @@ int main(int argc, char *argv[])
 	cv::Mat im = cv::imread(faceImageFile, cv::IMREAD_ANYCOLOR);
 	retVal = checkImageContent(im);
 
-	if (retVal != SUCCESS)
+	if (retVal != FVC_SUCCESS)
 		outFile->write(faceImageFile, retVal);
 	else
 	{
@@ -42,7 +45,7 @@ int main(int argc, char *argv[])
 
 int checkArgs(int argc)
 {
-	return (argc == 3) ? SUCCESS : NO_MORE_INFO;
+	return (argc == 3) ? FVC_SUCCESS : FVC_NO_MORE_INFO;
 }
 
 int checkImageFormat(std::string fileName)
@@ -50,10 +53,10 @@ int checkImageFormat(std::string fileName)
 	std::string ext = FileUtils::getFileExtension(fileName);
 	std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
 	bool isOk = (ext.compare("png") == 0 || ext.compare("jpg") == 0 || ext.compare("bmp") == 0);
-	return isOk ? SUCCESS : UNSUPPORTED_IMAGE_FORMAT;
+	return isOk ? FVC_SUCCESS : FVC_UNSUPPORTED_IMAGE_FORMAT;
 }
 
 int checkImageContent(cv::Mat im)
 {
-	return !im.empty() ? SUCCESS : UNUSEFUL_IMAGE_CONTENT;
+	return !im.empty() ? FVC_SUCCESS : FVC_UNUSEFUL_IMAGE_CONTENT;
 }

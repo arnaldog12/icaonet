@@ -30,11 +30,11 @@
 #define FVC_H
 
 // fvc return values
-#define SUCCESS 					1
-#define NO_MORE_INFO				0
-#define UNSUPPORTED_IMAGE_SIZE		-1
-#define UNSUPPORTED_IMAGE_FORMAT	-2
-#define UNUSEFUL_IMAGE_CONTENT		-3
+#define FVC_SUCCESS 					1
+#define FVC_NO_MORE_INFO				0
+#define FVC_UNSUPPORTED_IMAGE_SIZE		-1
+#define FVC_UNSUPPORTED_IMAGE_FORMAT	-2
+#define FVC_UNUSEFUL_IMAGE_CONTENT		-3
 
 // custom return values
 #define WRONG_NUMBER_OF_ARGS		-4
