@@ -29,22 +29,15 @@
 #ifndef FVC_H
 #define FVC_H
 
+// fvc return values
+#define SUCCESS 					1
+#define NO_MORE_INFO				0
+#define UNSUPPORTED_IMAGE_SIZE		-1
+#define UNSUPPORTED_IMAGE_FORMAT	-2
+#define UNUSEFUL_IMAGE_CONTENT		-3
 
-#define MAXPATH 											255
-#define MAXIMAGESIZE 							640*640
-
-#define SUCCESS 												0
-#define SYNTAX_ERROR 										1
-#define CANNOT_OPEN_OUTPUT_FILE 				2
-#define CANNOT_OPEN_IMAGE_FILE 					3
-#define CANNOT_OPEN_TEMPLATE_FILE 			4
-#define IMAGE_LOAD_ERROR								5
-#define CANNOT_WRITE_TEMPLATE 					6
-#define CANNOT_UPDATE_OUTPUT_FILE 			7
-
-#define XXXX_INIT_ERROR 							100
-#define XXXX_SETUP_ERROR 							101
-
+// custom return values
+#define WRONG_NUMBER_OF_ARGS		-4
 
 #endif /* FVC_H */
 

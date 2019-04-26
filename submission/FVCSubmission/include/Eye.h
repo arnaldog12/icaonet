@@ -7,7 +7,11 @@ public:
 	cv::Point leftCorner;
 	cv::Point rightCorner;
 	
-	Eye() {}
+	Eye() 
+	{
+		this->leftCorner = cv::Point(1, 1);
+		this->rightCorner = cv::Point(1, 1);
+	}
 	
 	Eye(cv::Point leftCorner, cv::Point rightCorner)
 	{
@@ -16,6 +20,11 @@ public:
 	}
 
 	~Eye() {}
+
+	cv::Point center()
+	{
+		return (leftCorner + rightCorner) / 2;
+	}
 
 	std::string toString()
 	{
