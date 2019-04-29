@@ -12,24 +12,24 @@ public:
 	
 	OutputFile(std::string filePath)
 	{
-		this->outputFile = std::ofstream(filePath, std::ofstream::out || std::ofstream::app);
+		this->outputFile.open(filePath, std::ofstream::app);
 	}
 
 	void write(std::string imageName, int retVal, Eye *rightEye = nullptr, Eye *leftEye = nullptr, PhotographicRequirements *reqs = nullptr)
 	{
-		outputFile << cv::format("%s %d", FileUtils::getFileName(imageName), retVal);
+		this->outputFile << cv::format("%s %d", FileUtils::getFileName(imageName).c_str(), retVal);
 		if (retVal != FVC_SUCCESS)
 		{
-			outputFile << std::endl;
+			this->outputFile << std::endl;
 			return;
 		}
 
 		cv::Point leftEyeCenter = leftEye->center();
 		cv::Point rightEyeCenter = rightEye->center();
-		outputFile << cv::format(" %d %d %d %d", leftEyeCenter.x, leftEyeCenter.y, rightEyeCenter.y, rightEyeCenter.x);
+		this->outputFile << cv::format(" %d %d %d %d", leftEyeCenter.x, leftEyeCenter.y, rightEyeCenter.y, rightEyeCenter.x);
 		for (Requirement *req : reqs->getRequirements())
-			outputFile << " " << reqToString(req);
-		outputFile << std::endl;
+			this->outputFile << " " << reqToString(req);
+		this->outputFile << std::endl;
 	}
 
 	void close()
