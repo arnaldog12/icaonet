@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies>gif\install\lib\giflib.lib;lmdb\install\lib\lmdb.lib;jsoncpp\src\jsoncpp\src\lib_json\$(Configuration)\jsoncpp.lib;farmhash\install\lib\farmhash.lib;fft2d\\src\lib\fft2d.lib;highwayhash\install\lib\highwayhash.lib;libprotobuf.lib;tf_protos_cc.lib;tf_cc.lib;tf_cc_ops.lib;tf_cc_framework.lib;tf_cc_while_loop.lib;tf_core_cpu.lib;tf_core_direct_session.lib;tf_core_framework.lib;tf_core_kernels.lib;tf_core_lib.lib;tf_core_ops.lib;tf_stream_executor.lib;nsync.lib;snappy.lib;sqlite.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\tensorflow\tensorflow-cpu\build\protobuf\src\protobuf\Release;C:\tensorflow\tensorflow-cpu\build\tf_cc.dir\Release;C:\tensorflow\tensorflow-cpu\build\tf_cc_ops.dir\Release;C:\tensorflow\tensorflow-cpu\build\tf_cc_framework.dir\Release;C:\tensorflow\tensorflow-cpu\build\tf_cc_while_loop.dir\Release;C:\tensorflow\tensorflow-cpu\build\tf_core_cpu.dir\Release;C:\tensorflow\tensorflow-cpu\build\tf_core_direct_session.dir\Release;C:\tensorflow\tensorflow-cpu\build\tf_core_framework.dir\Release;C:\tensorflow\tensorflow-cpu\build\tf_core_kernels.dir\Release;C:\tensorflow\tensorflow-cpu\build\tf_core_lib.dir\Release;C:\tensorflow\tensorflow-cpu\build\tf_core_ops.dir\Release;C:\tensorflow\tensorflow-cpu\build\tf_stream_executor.dir\Release;C:\tensorflow\tensorflow-cpu\build\nsync\src\nsync\Release;C:\tensorflow\tensorflow-cpu\build\snappy\src\snappy\Release;C:\tensorflow\tensorflow-cpu\build\sqlite\src\sqlite-build\Release;C:\tensorflow\tensorflow-cpu\build\Release;C:\tensorflow\tensorflow-cpu\build;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>/machine:x64 
+/ignore:4049 /ignore:4197 /ignore:4217 /ignore:4221 /ignore:4099
+/WHOLEARCHIVE:tf_cc.lib
+/WHOLEARCHIVE:tf_cc_framework.lib
+/WHOLEARCHIVE:tf_cc_ops.lib
+/WHOLEARCHIVE:tf_core_cpu.lib
+/WHOLEARCHIVE:tf_core_direct_session.lib
+/WHOLEARCHIVE:tf_core_framework.lib
+/WHOLEARCHIVE:tf_core_kernels.lib
+/WHOLEARCHIVE:tf_core_lib.lib
+/WHOLEARCHIVE:tf_core_ops.lib
+/WHOLEARCHIVE:tf_stream_executor.lib
+/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>
