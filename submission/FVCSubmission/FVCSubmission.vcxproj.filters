@@ -50,5 +50,8 @@
     <ClInclude Include="include\deeplearning\TensorflowUtils.h">
       <Filter>Header Files\deeplearning</Filter>
     </ClInclude>
+    <ClInclude Include="include\ICAONet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 #include "FvcHeader.h"
 #include "OutputFile.h"
 #include "FileUtils.h"
-#include "deeplearning/TensorflowGraph.h"
+#include "ICAONet.h"
 #include "opencv2/highgui/highgui.hpp"
 
 using deeplearning::TensorflowGraph;
@@ -20,10 +20,10 @@ int main(int argc, char *argv[])
 	std::string outputFile(argv[2]);
 	OutputFile *outFile = new OutputFile(outputFile);
 
-	retVal = checkImageFormat(faceImageFile);
+	retVal = (retVal == FVC_SUCCESS) ? checkImageFormat(faceImageFile) : retVal;
 
 	cv::Mat im = cv::imread(faceImageFile, cv::IMREAD_ANYCOLOR);
-	retVal = checkImageContent(im);
+	retVal = (retVal == FVC_SUCCESS) ? checkImageContent(im) : retVal;
 
 	if (retVal != FVC_SUCCESS)
 		outFile->write(faceImageFile, retVal);
@@ -32,6 +32,13 @@ int main(int argc, char *argv[])
 		Eye *rightEye = new Eye();
 		Eye *leftEye = new Eye();
 		PhotographicRequirements *reqs = new PhotographicRequirements();
+		reqs->hatCap->value = REQUIREMENT_VALUE::COMPLIANT;
+		reqs->hatCap->complianceDegree = ICAONet::hatcap(im);
+
+		std::cout << reqs->toString() << std::endl << std::endl;
+		std::cout << reqs->hatCap->toString() << std::endl;
+
+		outFile->write(faceImageFile, retVal, rightEye, leftEye, reqs);
 
 		delete rightEye;
 		delete leftEye;
@@ -52,7 +59,7 @@ int checkImageFormat(std::string fileName)
 {
 	std::string ext = FileUtils::getFileExtension(fileName);
 	std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
-	bool isOk = (ext.compare("png") == 0 || ext.compare("jpg") == 0 || ext.compare("bmp") == 0);
+	bool isOk = (ext.compare(".png") == 0 || ext.compare(".jpg") == 0 || ext.compare(".bmp") == 0);
 	return isOk ? FVC_SUCCESS : FVC_UNSUPPORTED_IMAGE_FORMAT;
 }
 

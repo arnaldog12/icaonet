@@ -28,6 +28,7 @@
     <ClInclude Include="include\Eye.h" />
     <ClInclude Include="include\FileUtils.h" />
     <ClInclude Include="include\FvcHeader.h" />
+    <ClInclude Include="include\ICAONet.h" />
     <ClInclude Include="include\OutputFile.h" />
     <ClInclude Include="include\PhotographicRequirements.h" />
     <ClInclude Include="include\Requirement.h" />
@@ -84,8 +85,8 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="PropertySheets\OpenCV3.4.2-Includes.props" />
     <Import Project="PropertySheets\OpenCV3.4.2-StaticLibs.Release.x64.props" />
-    <Import Project="..\..\..\..\..\..\..\Vsoft\BioPass\BPResearch\Core\includes\3rdParties\PropertySheets\tensorflow1.4\Tensorflow-Includes-CPU.props" />
-    <Import Project="..\..\..\..\..\..\..\Vsoft\BioPass\BPResearch\Core\includes\3rdParties\PropertySheets\tensorflow1.4\Tensorflow-StaticLibs.Release.x64.CPU.props" />
+    <Import Project="PropertySheets\Tensorflow-Includes-CPU.props" />
+    <Import Project="PropertySheets\Tensorflow-StaticLibs.Release.x64.CPU.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
