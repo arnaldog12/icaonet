@@ -35,9 +35,6 @@ int main(int argc, char *argv[])
 		reqs->hatCap->value = REQUIREMENT_VALUE::COMPLIANT;
 		reqs->hatCap->complianceDegree = ICAONet::hatcap(im);
 
-		std::cout << reqs->toString() << std::endl << std::endl;
-		std::cout << reqs->hatCap->toString() << std::endl;
-
 		outFile->write(faceImageFile, retVal, rightEye, leftEye, reqs);
 
 		delete rightEye;

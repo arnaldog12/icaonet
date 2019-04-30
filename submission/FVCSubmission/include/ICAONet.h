@@ -6,6 +6,7 @@
 #include "opencv2/core/core.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "DeepLearning/TensorflowGraph.h"
+#include "Resource.h"
 
 using deeplearning::TensorflowGraph;
 
@@ -14,8 +15,9 @@ class ICAONet
 public:
 	static int hatcap(cv::Mat imageColor)
 	{
-		const static string fileGraph = "hatcap_classifier_v1.pb";
-		TensorflowGraph *graph = new TensorflowGraph(fileGraph);
+		Resource *resource = new Resource(101);
+		std::ostringstream ss(resource->asString());
+		TensorflowGraph *graph = new TensorflowGraph(ss);
 
 		cv::Point rightEye, leftEye;
 		cv::Mat hatCapRegion = imageColor.clone();

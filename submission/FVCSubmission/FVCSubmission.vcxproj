@@ -32,6 +32,11 @@
     <ClInclude Include="include\OutputFile.h" />
     <ClInclude Include="include\PhotographicRequirements.h" />
     <ClInclude Include="include\Requirement.h" />
+    <ClInclude Include="include\Resource.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FVCSubmission.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

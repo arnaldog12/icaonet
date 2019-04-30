@@ -16,7 +16,6 @@ int main()
 		sprintf_s(command, "%s %s %s", exeFile.c_str(), file.path().string().c_str() , outFile.c_str());
 		std::cout << command << std::endl << std::endl;
 		std::system(command);
-		break;
 	}
 
 	return 0;
