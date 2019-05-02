@@ -29,15 +29,36 @@
 #ifndef FVC_H
 #define FVC_H
 
-// fvc return values
-#define FVC_SUCCESS 					1
-#define FVC_NO_MORE_INFO				0
-#define FVC_UNSUPPORTED_IMAGE_SIZE		-1
-#define FVC_UNSUPPORTED_IMAGE_FORMAT	-2
-#define FVC_UNUSEFUL_IMAGE_CONTENT		-3
+typedef enum ErrorCode
+{
+	SUCCESS = 0,
+	SYNTAX_ERROR = 1,
+	CANNOT_OPEN_OUTPUT_FILE = 2,
+	CANNOT_OPEN_IMAGE_FILE = 3,
+	IMAGE_LOAD_ERROR = 5,
+	CANNOT_UPDATE_OUTPUT_FILE = 7,
+	INIT_ERROR = 100,
+	SETUP_ERROR = 101
+}ErrorCode;
 
-// custom return values
-#define WRONG_NUMBER_OF_ARGS		-4
+typedef enum RetVal
+{
+	IMAGE_CAN_BE_PROCESSED = 1,
+	NO_MORE_INFO = 0,
+	UNSUPPORTED_IMAGE_SIZE = -1,
+	UNSUPPORTED_IMAGE_FORMAT = -2,
+	UNUSEFUL_IMAGE_CONTENT = -3
+}RetVal;
+
+static RetVal errorCodeToRetVal(ErrorCode errorCode)
+{
+	switch (errorCode)
+	{
+	case SUCCESS:					return RetVal::IMAGE_CAN_BE_PROCESSED;
+	case CANNOT_OPEN_IMAGE_FILE:	return RetVal::UNSUPPORTED_IMAGE_FORMAT;
+	case IMAGE_LOAD_ERROR:			return RetVal::UNUSEFUL_IMAGE_CONTENT;
+	default:						return RetVal::NO_MORE_INFO;
+	}
+}
 
 #endif /* FVC_H */
-

@@ -15,10 +15,10 @@ public:
 		this->outputFile.open(filePath, std::ofstream::app);
 	}
 
-	void write(std::string imageName, int retVal, Eye *rightEye = nullptr, Eye *leftEye = nullptr, PhotographicRequirements *reqs = nullptr)
+	void write(std::string imageName, RetVal retVal, Eye *rightEye = nullptr, Eye *leftEye = nullptr, PhotographicRequirements *reqs = nullptr)
 	{
 		this->outputFile << cv::format("%s %d", FileUtils::getFileName(imageName).c_str(), retVal);
-		if (retVal != FVC_SUCCESS)
+		if (retVal != RetVal::IMAGE_CAN_BE_PROCESSED)
 		{
 			this->outputFile << std::endl;
 			return;

@@ -7,26 +7,26 @@
 
 using deeplearning::TensorflowGraph;
 
-int checkArgs(int argc);
-int checkImageFormat(std::string fileName);
-int checkImageContent(cv::Mat im);
+ErrorCode checkArgs(int argc);
+ErrorCode checkImageFormat(std::string fileName);
+ErrorCode checkImageContent(cv::Mat im);
 
 int main(int argc, char *argv[]) 
 {
-	int retVal = FVC_SUCCESS;
-	retVal = checkArgs(argc);
+	ErrorCode errorCode = ErrorCode::SUCCESS;
+	errorCode = checkArgs(argc);
 
 	std::string faceImageFile(argv[1]);
 	std::string outputFile(argv[2]);
 	OutputFile *outFile = new OutputFile(outputFile);
 
-	retVal = (retVal == FVC_SUCCESS) ? checkImageFormat(faceImageFile) : retVal;
+	errorCode = (errorCode == ErrorCode::SUCCESS) ? checkImageFormat(faceImageFile) : errorCode;
 
 	cv::Mat im = cv::imread(faceImageFile, cv::IMREAD_ANYCOLOR);
-	retVal = (retVal == FVC_SUCCESS) ? checkImageContent(im) : retVal;
+	errorCode = (errorCode == ErrorCode::SUCCESS) ? checkImageContent(im) : errorCode;
 
-	if (retVal != FVC_SUCCESS)
-		outFile->write(faceImageFile, retVal);
+	if (errorCode != ErrorCode::SUCCESS)
+		outFile->write(faceImageFile, errorCodeToRetVal(errorCode));
 	else
 	{
 		Eye *rightEye = new Eye();
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 		reqs->hatCap->value = REQUIREMENT_VALUE::COMPLIANT;
 		reqs->hatCap->complianceDegree = ICAONet::hatcap(im);
 
-		outFile->write(faceImageFile, retVal, rightEye, leftEye, reqs);
+		outFile->write(faceImageFile, errorCodeToRetVal(errorCode), rightEye, leftEye, reqs);
 
 		delete rightEye;
 		delete leftEye;
@@ -44,23 +44,23 @@ int main(int argc, char *argv[])
 	
 	outFile->close();
 	delete outFile;
-	return retVal;
+	return errorCode;
 }
 
-int checkArgs(int argc)
+ErrorCode checkArgs(int argc)
 {
-	return (argc == 3) ? FVC_SUCCESS : FVC_NO_MORE_INFO;
+	return (argc == 3) ? ErrorCode::SUCCESS : ErrorCode::SYNTAX_ERROR;
 }
 
-int checkImageFormat(std::string fileName)
+ErrorCode checkImageFormat(std::string fileName)
 {
 	std::string ext = FileUtils::getFileExtension(fileName);
 	std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
 	bool isOk = (ext.compare(".png") == 0 || ext.compare(".jpg") == 0 || ext.compare(".bmp") == 0);
-	return isOk ? FVC_SUCCESS : FVC_UNSUPPORTED_IMAGE_FORMAT;
+	return isOk ? ErrorCode::SUCCESS : ErrorCode::CANNOT_OPEN_IMAGE_FILE;
 }
 
-int checkImageContent(cv::Mat im)
+ErrorCode checkImageContent(cv::Mat im)
 {
-	return !im.empty() ? FVC_SUCCESS : FVC_UNUSEFUL_IMAGE_CONTENT;
+	return !im.empty() ? ErrorCode::SUCCESS : ErrorCode::IMAGE_LOAD_ERROR;
 }
