@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FVCSubmission", "FVCSubmission.vcxproj", "{DE74D24E-67D6-4DA5-A7BD-4571435588E4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FVCSubmission", "FVCSubmission\FVCSubmission.vcxproj", "{DE74D24E-67D6-4DA5-A7BD-4571435588E4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestFVCSubmission", "..\TestFVCSubmission\TestFVCSubmission.vcxproj", "{F7258E52-99E9-479A-9A77-4F4FB0CEE03A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestFVCSubmission", "TestFVCSubmission\TestFVCSubmission.vcxproj", "{F7258E52-99E9-479A-9A77-4F4FB0CEE03A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
