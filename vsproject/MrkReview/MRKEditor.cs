@@ -70,6 +70,7 @@ namespace MrkReview
         {
             this.listBoxImgs.Items.Clear();
             filteredList.ForEach(delegate (GTPair pair) { this.listBoxImgs.Items.Add(Path.GetFileName(pair.FileImage)); });
+            this.labelCountImages.Text = String.Format("{0} images", filteredList.Count);
         }
 
         private void SaveFileAndGoToNextImage(REQUIREMENT_VALUE newValue)
