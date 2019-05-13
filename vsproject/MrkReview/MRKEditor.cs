@@ -14,6 +14,7 @@ namespace MrkReview
         string folderPathMRKs = "";
         List<GTPair> listAll = new List<GTPair>();
         List<GTPair> listFilteredReqs;
+        Panel[] listPanelsOfFilters;
         REQUIREMENT_VALUE[] reqValues = { REQUIREMENT_VALUE.NON_COMPLIANT, REQUIREMENT_VALUE.COMPLIANT, REQUIREMENT_VALUE.DUMMY };
         REQUIREMENT_VALUE[] nextReqValue = { REQUIREMENT_VALUE.COMPLIANT, REQUIREMENT_VALUE.DUMMY, REQUIREMENT_VALUE.NON_COMPLIANT };
 
@@ -28,6 +29,7 @@ namespace MrkReview
         {
             InitializeComponent();
             this.InitListView();
+            this.InitListOfPanels();
         }
 
         private void LoadMRKFiles(string[] imageFiles)
@@ -47,16 +49,33 @@ namespace MrkReview
                 this.listViewReqs.Items.Add(new ListViewItem(req.Description));
         }
 
-        private List<GTPair> FilterGTPairsByRequirementAndValue()
+        private void InitListOfPanels()
         {
-            int selectedValueIndex = this.comboBoxValues.SelectedIndex;
-            int selectedReqIndex = this.comboBoxReq.SelectedIndex;
-            if (selectedValueIndex < 0 || selectedReqIndex < 0) return this.listAll;
+            this.listPanelsOfFilters = new Panel[23] { this.panelBlurred, this.panelLookingAway, this.panelInkMarkedCreased, this.panelUnnaturalSkinTone, this.panelTooDarkLight, this.panelWashedOut, this.panelPixelation, this.panelHairAcrossEyes, this.panelEyesClosed, this.panelVariedBackground, this.panelRollPitchYaw, this.panelFlashReflectionOnSkin, this.panelRedEyes, this.panelShadowsBehindHead, this.panelShadowsAcrossFace, this.panelDarkTintedLenses, this.panelFlashReflectionOnLenses, this.panelFramesTooHeavy, this.panelFrameCoveringEyes, this.panelHatcap, this.panelVeilOverFace, this.panelMouthOpen, this.panelPresenceOfOtherFaces };
+        }
 
-            REQUIREMENT_VALUE reqValue = reqValues[selectedValueIndex];
+        private void FilterGTPairsByRequirementsAndValues()
+        {
+            this.listFilteredReqs = this.listAll;
+            PhotographicRequirements reqs = new PhotographicRequirements();
 
-            return this.listAll.Where(req =>
-                req.FileMrk.PhotoReqs.GetRequirements()[selectedReqIndex].Value == reqValue).ToList<GTPair>();
+            for (int panelIndex = 0; panelIndex < this.listPanelsOfFilters.Count(); panelIndex++)
+            {
+                Panel panel = (Panel)this.listPanelsOfFilters[panelIndex];
+
+                for (int radioButtonIndex = 0; radioButtonIndex < 4; radioButtonIndex++)
+                {
+                    RadioButton rb = (RadioButton) panel.Controls[radioButtonIndex];
+                    if (!rb.Checked) continue;
+                    if (radioButtonIndex == 0) break;
+
+                    REQUIREMENT_VALUE reqValue = reqValues[radioButtonIndex - 1];
+                    this.listFilteredReqs = this.listFilteredReqs.Where(req => req.FileMrk.PhotoReqs.GetRequirements()[panelIndex].Value == reqValue).ToList<GTPair>();
+                }
+
+                if (this.listFilteredReqs.Count == 0) break;
+            }
+            this.UpdateListBoxImages(this.listFilteredReqs);
         }
 
         private void UpdateListViewRequirements(MRKFile mrkFile)
@@ -76,11 +95,9 @@ namespace MrkReview
         private void SaveFileAndGoToNextImage(REQUIREMENT_VALUE newValue)
         {
             int selectedImage = this.listBoxImgs.SelectedIndex;
-            int selectedRequirement = this.comboBoxReq.SelectedIndex;
-            if (selectedImage < 0 || selectedRequirement < 0) return;
+            if (selectedImage < 0) return;
 
             MRKFile mrkFile = this.listFilteredReqs[selectedImage].FileMrk;
-            mrkFile.PhotoReqs.GetRequirements()[selectedRequirement].Value = newValue;
             mrkFile.Save();
 
             selectedImage = Math.Max(0, selectedImage + 1);
@@ -88,7 +105,6 @@ namespace MrkReview
         }
 
         // ------------------------ EVENTS METHODS ------------------------
-
         private void buttonOpenDir_Click(object sender, EventArgs e)
         {
             fileDialog.Filter = "Image Files (*.png, *.jpg, *.jpeg)|*.png;*.jpg;*.jpeg";
@@ -109,9 +125,10 @@ namespace MrkReview
 
             LoadMRKFiles(fileDialog.FileNames);
 
-            this.checkBoxAll.Checked = true;
-            this.checkBoxAll.Enabled = true;
             this.listBoxImgs.Enabled = true;
+            this.buttonAcc.Enabled = true;
+            this.buttonReject.Enabled = true;
+            this.buttonDummy.Enabled = true;
 
             this.listFilteredReqs = this.listAll;
             this.UpdateListBoxImages(this.listFilteredReqs);
@@ -127,16 +144,6 @@ namespace MrkReview
             this.UpdateListViewRequirements(this.listFilteredReqs[selectedIndex].FileMrk);
         }
 
-        private void comboBoxValues_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int selectedValue = this.comboBoxValues.SelectedIndex;
-            int selectedReq = this.comboBoxReq.SelectedIndex;
-            if (selectedValue < 0 || selectedReq < 0) return;
-
-            this.listFilteredReqs = this.FilterGTPairsByRequirementAndValue();
-            this.UpdateListBoxImages(this.listFilteredReqs);
-        }
-
         private void listViewReqs_MouseClick(object sender, MouseEventArgs e)
         {
             int selectedImage = this.listBoxImgs.SelectedIndex;
@@ -149,21 +156,8 @@ namespace MrkReview
 
             mrkFile.Save();
             this.UpdateListViewRequirements(this.listFilteredReqs[selectedImage].FileMrk);
-
             this.buttonOpenDir.Focus();
-        }
-
-        private void checkBoxAll_CheckedChanged(object sender, EventArgs e)
-        {
-            bool isChecked = this.checkBoxAll.Checked;
-            this.listFilteredReqs = isChecked ? this.listAll : this.FilterGTPairsByRequirementAndValue();
-
-            this.comboBoxReq.Enabled = !isChecked;
-            this.comboBoxValues.Enabled = !isChecked;
-            this.buttonReject.Enabled = !isChecked;
-            this.buttonDummy.Enabled = !isChecked;
-            this.buttonAcc.Enabled = !isChecked;
-            this.UpdateListBoxImages(this.listFilteredReqs);
+            this.listViewReqs.SelectedItems.Clear();
         }
 
         private void buttonReject_Click(object sender, EventArgs e)
@@ -179,6 +173,21 @@ namespace MrkReview
         private void buttonAcc_Click(object sender, EventArgs e)
         {
             this.SaveFileAndGoToNextImage(REQUIREMENT_VALUE.COMPLIANT);
+        }
+
+        private void buttonResetFilters_Click(object sender, EventArgs e)
+        {
+            foreach (Panel panel in this.listPanelsOfFilters)
+            {
+                RadioButton rb = (RadioButton)panel.Controls[0];
+                rb.Checked = true;
+            }
+            this.FilterGTPairsByRequirementsAndValues();
+        }
+
+        private void buttonFilterReqs_Click(object sender, EventArgs e)
+        {
+            this.FilterGTPairsByRequirementsAndValues();
         }
     }
 }
