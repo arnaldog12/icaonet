@@ -117,4 +117,5 @@ data/Rubbish/
 *.pkl
 *.pb
 *.txt
+*.exe
 **/tmp
