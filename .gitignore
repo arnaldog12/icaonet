@@ -113,7 +113,8 @@ venv.bak/
 *.bmp
 
 # custom
-data/Rubbish/
+*Rubbish*
+data/augmentation/
 *.pkl
 *.pb
 *.txt
