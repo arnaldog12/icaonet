@@ -17,6 +17,14 @@ class MRKFile():
             self.left_eye = Eye(*mrk_file.readline().replace('\n', '').split(' '))
             self.photo_reqs = PhotographicRequirements(*[int(line.replace('\n', '')) for line in mrk_file.readlines()])
 
+    def save(self, file_path):
+        with open(file_path, 'w') as mrk_file:
+            mrk_file.write('{} {} {} {}\n'.format(self.right_eye.left_corner.x, self.right_eye.left_corner.y, self.right_eye.right_corner.x, self.right_eye.right_corner.y))
+            mrk_file.write('{} {} {} {}\n'.format(self.left_eye.left_corner.x, self.left_eye.left_corner.y, self.left_eye.right_corner.x, self.left_eye.right_corner.y))
+
+            for req in self.photo_reqs:
+                mrk_file.write('{}\n'.format(req.value))
+
     def __str__(self):
         output_str = 'Right Eye => {}\n'.format(self.right_eye.__str__())
         output_str += ' Left Eye => {}\n'.format(self.left_eye.__str__())
