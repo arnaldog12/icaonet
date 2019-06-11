@@ -4,13 +4,13 @@ namespace MrkReview
 {
     public class Eye
     {
-        public Point RightCorner { get; }
         public Point LeftCorner { get; }
+        public Point RightCorner { get; }
 
-        public Eye(Point rightCorner, Point leftCorner)
+        public Eye(Point leftCorner, Point rightCorner)
         {
-            this.RightCorner = rightCorner;
             this.LeftCorner = leftCorner;
+            this.RightCorner = rightCorner;
         }
     }
 }

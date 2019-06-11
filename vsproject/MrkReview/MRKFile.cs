@@ -21,8 +21,8 @@ namespace MrkReview
         public void Save()
         {
             List<string> lines = new List<string>();
-            lines.Add($"{this.RightEye.RightCorner.X} {this.RightEye.RightCorner.Y} {this.RightEye.LeftCorner.X} {this.RightEye.LeftCorner.Y}");
-            lines.Add($"{this.LeftEye.RightCorner.X} {this.LeftEye.RightCorner.Y} {this.LeftEye.LeftCorner.X} {this.LeftEye.LeftCorner.Y}");
+            lines.Add($"{this.RightEye.LeftCorner.X} {this.RightEye.LeftCorner.Y} {this.RightEye.RightCorner.X} {this.RightEye.RightCorner.Y}");
+            lines.Add($"{this.LeftEye.LeftCorner.X} {this.LeftEye.LeftCorner.Y} {this.LeftEye.RightCorner.X} {this.LeftEye.RightCorner.Y}");
             
             foreach (Requirement req in this.PhotoReqs)
                 lines.Add($"{(int) req.Value}");
@@ -38,14 +38,14 @@ namespace MrkReview
             Point rightCorner, leftCorner;
 
             eyePoints = fileLines[0].Split(' ');
-            rightCorner = new Point(Int32.Parse(eyePoints[0]), Int32.Parse(eyePoints[1]));
-            leftCorner = new Point(Int32.Parse(eyePoints[2]), Int32.Parse(eyePoints[3]));
-            this.RightEye = new Eye(rightCorner, leftCorner);
+            leftCorner = new Point(Int32.Parse(eyePoints[0]), Int32.Parse(eyePoints[1]));
+            rightCorner = new Point(Int32.Parse(eyePoints[2]), Int32.Parse(eyePoints[3]));
+            this.RightEye = new Eye(leftCorner, rightCorner);
 
             eyePoints = fileLines[1].Split(' ');
-            rightCorner = new Point(Int32.Parse(eyePoints[0]), Int32.Parse(eyePoints[1]));
-            leftCorner = new Point(Int32.Parse(eyePoints[2]), Int32.Parse(eyePoints[3]));
-            this.LeftEye = new Eye(rightCorner, leftCorner);
+            leftCorner = new Point(Int32.Parse(eyePoints[0]), Int32.Parse(eyePoints[1]));
+            rightCorner = new Point(Int32.Parse(eyePoints[2]), Int32.Parse(eyePoints[3]));
+            this.LeftEye = new Eye(leftCorner, rightCorner);
 
             this.PhotoReqs = new PhotographicRequirements(
                 blurred: (REQUIREMENT_VALUE)Int32.Parse(fileLines[2]),
