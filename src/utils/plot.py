@@ -16,7 +16,7 @@ def image_batch(batch, y_true, y_pred=None, labels=None, n_cols=10, figsize=(16,
         plt.axis('off')
     plt.tight_layout()
 
-def plot_keras_hist(history, figsize=(12, 4), loss_train_key='loss', loss_val_key='val_loss', metric_train_key='acc', metric_val_key='val_acc'):
+def keras_hist(history, figsize=(12, 4), loss_train_key='loss', loss_val_key='val_loss', metric_train_key='acc', metric_val_key='val_acc'):
     loss_train = history.get(loss_train_key, [])
     loss_valid = history.get(loss_val_key, [])
     metric_train = history.get(metric_train_key, [])
@@ -36,7 +36,7 @@ def plot_keras_hist(history, figsize=(12, 4), loss_train_key='loss', loss_val_ke
         plt.ylim(top=1)
         plt.legend()
 
-def plot_confusion_matrix(cm, target_names, title='Confusion matrix', cmap=None, normalize=False, figsize=(8, 6), fontsize=16):
+def confusion_matrix(cm, target_names, title='Confusion matrix', cmap=None, normalize=False, figsize=(8, 6), fontsize=16):
     """
     given a sklearn confusion matrix (cm), make a nice plot
 
