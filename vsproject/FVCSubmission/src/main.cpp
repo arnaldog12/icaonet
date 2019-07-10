@@ -32,8 +32,10 @@ int main(int argc, char *argv[])
 		Eye *rightEye = new Eye();
 		Eye *leftEye = new Eye();
 		PhotographicRequirements *reqs = new PhotographicRequirements();
-		reqs->hatCap->value = REQUIREMENT_VALUE::COMPLIANT;
-		reqs->hatCap->complianceDegree = ICAONet::hatcap(im);
+
+		int score;
+		reqs->variedBackground->value = ICAONet::variedBackground(im, score);
+		reqs->variedBackground->complianceDegree = score;
 
 		outFile->write(faceImageFile, errorCodeToRetVal(errorCode), rightEye, leftEye, reqs);
 
