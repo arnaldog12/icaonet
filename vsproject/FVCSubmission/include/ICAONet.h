@@ -50,9 +50,11 @@ public:
 		
 		double confidence;
 		int yPred = softmaxClass(outputs[0][0], confidence);
-		
+		yPred = yPred - 1; // from [0, 1, 2] -> [-1, 0, 1] (nn output -> req. values)
+
+		confidence = (yPred == 1) ? confidence : 1.0 - confidence;
 		score = (int) (confidence * 100.0f);
-		return (REQUIREMENT_VALUE) (yPred - 1);
+		return (REQUIREMENT_VALUE) yPred;
 	}
 
 private:
