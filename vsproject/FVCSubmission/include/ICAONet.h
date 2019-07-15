@@ -48,13 +48,9 @@ public:
 		feedDict.push_back(TensorflowPlaceholder::tensor("input:0", TensorflowUtils::mat2tensor<float>(inputImage)));
 		std::vector<std::vector<cv::Mat>> outputs = graph->run(feedDict, { "varied_background/Softmax:0" });
 		
-		double confidence;
-		int yPred = softmaxClass(outputs[0][0], confidence);
-		yPred = yPred - 1; // from [0, 1, 2] -> [-1, 0, 1] (nn output -> req. values)
-
-		confidence = (yPred == 1) ? confidence : 1.0 - confidence;
+		double confidence = outputs[0][0].at<float>(0, 2);
 		score = (int) (confidence * 100.0f);
-		return (REQUIREMENT_VALUE) yPred;
+		return (REQUIREMENT_VALUE) REQUIREMENT_VALUE::COMPLIANT;
 	}
 
 private:
