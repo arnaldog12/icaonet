@@ -115,6 +115,7 @@ venv.bak/
 # custom
 *Rubbish*
 data/augmentation/
+models/
 *.pkl
 *.pb
 *.txt
