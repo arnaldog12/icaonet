@@ -9,7 +9,7 @@ int main()
 	std::string exeFile = "..\\FVCSubmission\\x64\\Release\\Check.exe";
 	std::string outFile = "out.txt";
 
-	std::string folderPath = "C:\\Users\\Arnaldo\\Pictures\\ICAO\\11_varied_background\\";
+	std::string folderPath = "C:\\Users\\Arnaldo\\Documents\\GitHub\\doutorado\\data\\val\\FVC\\images\\";
 	for (const auto &file : fs::directory_iterator(folderPath))
 	{
 		char command[256];

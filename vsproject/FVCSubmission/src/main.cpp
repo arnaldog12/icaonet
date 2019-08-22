@@ -31,11 +31,7 @@ int main(int argc, char *argv[])
 	{
 		Eye *rightEye = new Eye();
 		Eye *leftEye = new Eye();
-		PhotographicRequirements *reqs = new PhotographicRequirements();
-
-		int score;
-		reqs->variedBackground->value = ICAONet::variedBackground(im, score);
-		reqs->variedBackground->complianceDegree = score;
+		PhotographicRequirements *reqs = ICAONet::run(im);
 
 		outFile->write(faceImageFile, errorCodeToRetVal(errorCode), rightEye, leftEye, reqs);
 
