@@ -101,7 +101,7 @@ private:
 		cv::minMaxLoc(output, NULL, NULL, (cv::Point *)0, &maxLoc);
 
 		value = (REQUIREMENT_VALUE) maxLoc.x; 
-		complianceDegree = (int)(output.at<float>(0, 1) * 100.0f);
+		complianceDegree = (int)((1.0f - output.at<float>(0, 0)) * 100.0f);
 	}
 
 	static void parseCompliantDummyOutput(cv::Mat output, REQUIREMENT_VALUE& value, int& complianceDegree)
@@ -119,6 +119,6 @@ private:
 		cv::minMaxLoc(output, NULL, NULL, (cv::Point *)0, &maxLoc);
 
 		value = (REQUIREMENT_VALUE) (maxLoc.x - 1); // from [0, 1, 2] -> [-1, 0, 1] (nn output -> req. values)
-		complianceDegree = (value == REQUIREMENT_VALUE::DUMMY) ? 0 : (int) (output.at<float>(0, 2) * 100.0f);
+		complianceDegree = (value == REQUIREMENT_VALUE::DUMMY) ? 0 : (int) ((1.0f - output.at<float>(0, 1)) * 100.0f);
 	}
 };
