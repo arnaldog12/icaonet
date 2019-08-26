@@ -101,7 +101,7 @@ private:
 		cv::minMaxLoc(output, NULL, NULL, (cv::Point *)0, &maxLoc);
 
 		value = (REQUIREMENT_VALUE) maxLoc.x; 
-		complianceDegree = (int)((1.0f - output.at<float>(0, 0)) * 100.0f);
+		complianceDegree = (int)(output.at<float>(0, 1) * 100.0f);
 	}
 
 	static void parseCompliantDummyOutput(cv::Mat output, REQUIREMENT_VALUE& value, int& complianceDegree)
@@ -109,8 +109,8 @@ private:
 		cv::Point maxLoc;
 		cv::minMaxLoc(output, NULL, NULL, (cv::Point *)0, &maxLoc);
 
-		value = maxLoc.x == 0 ? REQUIREMENT_VALUE::DUMMY : REQUIREMENT_VALUE::COMPLIANT;
-		complianceDegree = (value == REQUIREMENT_VALUE::DUMMY) ? 0 : (int)(output.at<float>(0, 1) * 100.0f);
+		value = (REQUIREMENT_VALUE)maxLoc.x;
+		complianceDegree = (value == REQUIREMENT_VALUE::NON_COMPLIANT) ? (int) ((1.0f - output.at<float>(0, 0))*100.0f) : (int) (output.at<float>(0, 1)*100.0f);
 	}
 
 	static void parseTernaryOutput(cv::Mat output, REQUIREMENT_VALUE& value, int& complianceDegree)
@@ -119,6 +119,15 @@ private:
 		cv::minMaxLoc(output, NULL, NULL, (cv::Point *)0, &maxLoc);
 
 		value = (REQUIREMENT_VALUE) (maxLoc.x - 1); // from [0, 1, 2] -> [-1, 0, 1] (nn output -> req. values)
-		complianceDegree = (value == REQUIREMENT_VALUE::DUMMY) ? 0 : (int) ((1.0f - output.at<float>(0, 1)) * 100.0f);
+		switch (value)
+		{
+			case REQUIREMENT_VALUE::DUMMY: 
+				value = REQUIREMENT_VALUE::NON_COMPLIANT;
+				complianceDegree = (int)((1.0f - output.at<float>(0, 0)) * 100.0f); 
+				break;
+			case REQUIREMENT_VALUE::NON_COMPLIANT: complianceDegree = (int)((1.0f - output.at<float>(0, 1)) * 100.0f); break;
+			case REQUIREMENT_VALUE::COMPLIANT: complianceDegree = (int)(output.at<float>(0, 2) * 100.0f); break;
+			default: break;
+		}
 	}
 };
