@@ -115,6 +115,7 @@ venv.bak/
 # custom
 *Rubbish*
 data/augmentation/
+data/pybossa/
 models/
 *.pkl
 *.pb
