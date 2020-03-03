@@ -4,21 +4,25 @@ from iso_standard import PhotographicRequirements
 class MRKFile():
     """A class to load and save MRK files."""
 
-    def __init__(self, file_path):
-        self.file_path = file_path
-        self.right_eye = None
-        self.left_eye = None
-        self.photo_reqs = None
-        self.__load()
+    def __init__(self, right_eye, left_eye, photo_reqs):
+        self.right_eye = right_eye
+        self.left_eye = left_eye
+        self.photo_reqs = photo_reqs
 
-    def __load(self):
-        with open(self.file_path, 'r') as mrk_file:
-            self.right_eye = Eye(*mrk_file.readline().replace('\n', '').split(' '))
-            self.left_eye = Eye(*mrk_file.readline().replace('\n', '').split(' '))
-            self.photo_reqs = PhotographicRequirements(*[int(line.replace('\n', '')) for line in mrk_file.readlines()])
+    @classmethod
+    def from_file(cls, filepath):
+        return cls(*MRKFile.__load(filepath))
 
-    def save(self, file_path):
-        with open(file_path, 'w') as mrk_file:
+    @staticmethod
+    def __load(filepath):
+        with open(filepath, 'r') as mrk_file:
+            right_eye = Eye(*mrk_file.readline().replace('\n', '').split(' '))
+            left_eye = Eye(*mrk_file.readline().replace('\n', '').split(' '))
+            photo_reqs = PhotographicRequirements(*[int(line.replace('\n', '')) for line in mrk_file.readlines()])
+        return right_eye, left_eye, photo_reqs
+
+    def save(self, filepath):
+        with open(filepath, 'w') as mrk_file:
             mrk_file.write('{} {} {} {}\n'.format(self.right_eye.left_corner.x, self.right_eye.left_corner.y, self.right_eye.right_corner.x, self.right_eye.right_corner.y))
             mrk_file.write('{} {} {} {}\n'.format(self.left_eye.left_corner.x, self.left_eye.left_corner.y, self.left_eye.right_corner.x, self.left_eye.right_corner.y))
 
