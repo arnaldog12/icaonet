@@ -106,6 +106,9 @@ venv.bak/
 # SO related files
 *.ini
 
+# vscode
+.vscode
+
 # image files
 *.jp[e]g
 *.JPG
