@@ -120,6 +120,8 @@ venv.bak/
 data/augmentation/
 data/pybossa/
 models/
+notebooks/mlruns/
+logs/
 *.pkl
 *.pb
 *.txt
