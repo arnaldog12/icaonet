@@ -3,6 +3,7 @@ import numpy as np
 from glob import glob
 from os import path
 from mrk_file import MRKFile
+from sys import stdout
 
 def images_from_folder(folder_path, output_size=None, output_type=np.float32, bgr2rgb=False, interpolation=cv2.INTER_LINEAR):
     list_files = glob(path.join(folder_path, '*'))
@@ -21,6 +22,8 @@ def images_from_list_files(list_files, output_size=None, output_type=np.float32,
 
     for i, file in enumerate(list_files):
         print('{} of {}'.format(i+1, n_files), end='\r')
+        stdout.flush()
+
         im = cv2.imread(file, cv2.IMREAD_ANYCOLOR)
 
         if (not is_gray) and bgr2rgb:
@@ -42,6 +45,8 @@ def mrk_files_from_list_files(list_files):
     mrk_files = []
     for i, mrk_path in enumerate(list_files):
         print('{} of {}'.format(i+1, len(list_files)), end='\r')
-        mrk_files.append(MRKFile(mrk_path))
+        stdout.flush()
+
+        mrk_files.append(MRKFile.from_file(mrk_path))
     print()
-    return mrk_files
+    return np.array(mrk_files)
