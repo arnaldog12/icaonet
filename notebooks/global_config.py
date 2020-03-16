@@ -1,5 +1,7 @@
+USER_IDS = "1"
+
 FOLDER_IMAGES = '../data/pybossa/images/'
-FOLDER_MRKS = '../data/pybossa/ground_truth/1/'
+FOLDER_MRKS = f'../data/pybossa/ground_truth/{USER_IDS}/'
 FOLDER_DATA_AUGMENTATION = '../data/pybossa/augmentation/'
 
 FILE_DUMP = '../data/pybossa/pybossa.pkl'
