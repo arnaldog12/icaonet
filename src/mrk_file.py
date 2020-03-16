@@ -4,14 +4,16 @@ from iso_standard import PhotographicRequirements
 class MRKFile():
     """A class to load and save MRK files."""
 
-    def __init__(self, right_eye, left_eye, photo_reqs):
+    def __init__(self, right_eye, left_eye, photo_reqs, filepath=None):
         self.right_eye = right_eye
         self.left_eye = left_eye
         self.photo_reqs = photo_reqs
+        self.filepath = filepath
 
     @classmethod
     def from_file(cls, filepath):
-        return cls(*MRKFile.__load(filepath))
+        right_eye, left_eye, photo_reqs = MRKFile.__load(filepath)
+        return cls(right_eye, left_eye, photo_reqs, filepath)
 
     @staticmethod
     def __load(filepath):
@@ -19,7 +21,7 @@ class MRKFile():
             right_eye = Eye(*mrk_file.readline().replace('\n', '').split(' '))
             left_eye = Eye(*mrk_file.readline().replace('\n', '').split(' '))
             photo_reqs = PhotographicRequirements(*[int(line.replace('\n', '')) for line in mrk_file.readlines()])
-        return right_eye, left_eye, photo_reqs
+        return (right_eye, left_eye, photo_reqs)
 
     def save(self, filepath):
         with open(filepath, 'w') as mrk_file:
