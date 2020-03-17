@@ -25,31 +25,35 @@ public:
 
 		TensorflowPlaceholder::tensorDict feedDict;
 		feedDict.push_back(TensorflowPlaceholder::tensor("input:0", TensorflowUtils::mat2tensor<float>(im)));
-		std::vector<std::vector<cv::Mat>> outputs = graph->run(feedDict, { "blurred/Softmax:0", "looking_away/Softmax:0", "unnatural_skin_tone/Softmax:0", "too_dark_light/Softmax:0", "washed_out/Softmax:0", "pixelation/Softmax:0", "hair_across_eyes/Softmax:0", "eyes_closed/Softmax:0", "varied_background/Softmax:0", "roll_pitch_yaw/Softmax:0", "flash_reflection_on_skin/Softmax:0", "red_eyes/Softmax:0", "shadows_behind_head/Softmax:0", "shadows_across_face/Softmax:0", "dark_tinted_lenses/Softmax:0", "flash_reflection_on_lenses/Softmax:0", "frame_covering_eyes/Softmax:0", "hat_cap/Softmax:0", "veil_over_face/Softmax:0", "mouth_open/Softmax:0", "presence_of_other_faces_or_toys/Softmax:0" });
+		std::vector<std::vector<cv::Mat>> outputs = graph->run(feedDict, { "blurred/Sigmoid:0", "looking_away/Sigmoid:0", "unnatural_skin_tone/Sigmoid:0", "too_dark_light/Sigmoid:0", "washed_out/Sigmoid:0", "pixelation/Sigmoid:0", "hair_across_eyes/Sigmoid:0", "eyes_closed/Sigmoid:0", "varied_background/Sigmoid:0", "roll_pitch_yaw/Sigmoid:0", "flash_reflection_on_skin/Sigmoid:0", "red_eyes/Sigmoid:0", "shadows_behind_head/Sigmoid:0", "shadows_across_face/Sigmoid:0", "dark_tinted_lenses/Sigmoid:0", "flash_reflection_on_lenses/Sigmoid:0", "frames_too_heavy/Sigmoid:0", "frame_covering_eyes/Sigmoid:0", "hat_cap/Sigmoid:0", "veil_over_face/Sigmoid:0", "mouth_open/Sigmoid:0", "presence_of_other_faces_or_toys/Sigmoid:0" });
+
+		//for (std::vector<cv::Mat> output : outputs)
+		//	std::cout << output[0] << std::endl;
 
 		PhotographicRequirements *reqs = new PhotographicRequirements();
 
-		parseTernaryOutput(outputs[0][0], reqs->blurred->value, reqs->blurred->complianceDegree);
-		parseTernaryOutput(outputs[1][0], reqs->lookingAway->value, reqs->lookingAway->complianceDegree);
-		parseTernaryOutput(outputs[2][0], reqs->unnaturalSkinTone->value, reqs->unnaturalSkinTone->complianceDegree);
-		parseTernaryOutput(outputs[3][0], reqs->tooDarkLight->value, reqs->tooDarkLight->complianceDegree);
-		parseTernaryOutput(outputs[4][0], reqs->washedOut->value, reqs->washedOut->complianceDegree);
-		parseCompliantNonCompliantOutput(outputs[5][0], reqs->pixelation->value, reqs->pixelation->complianceDegree);
-		parseTernaryOutput(outputs[6][0], reqs->hairAcrossEyes->value, reqs->hairAcrossEyes->complianceDegree);
-		parseTernaryOutput(outputs[7][0], reqs->eyesClosed->value, reqs->eyesClosed->complianceDegree);
-		parseTernaryOutput(outputs[8][0], reqs->variedBackground->value, reqs->variedBackground->complianceDegree);
-		parseTernaryOutput(outputs[9][0], reqs->rollPitchYaw->value, reqs->rollPitchYaw->complianceDegree);
-		parseTernaryOutput(outputs[10][0], reqs->flashReflectionOnSkin->value, reqs->flashReflectionOnSkin->complianceDegree);
-		parseTernaryOutput(outputs[11][0], reqs->redEyes->value, reqs->redEyes->complianceDegree);
-		parseTernaryOutput(outputs[12][0], reqs->shadowsBehindHead->value, reqs->shadowsBehindHead->complianceDegree);
-		parseTernaryOutput(outputs[13][0], reqs->shadowsAcrossFace->value, reqs->shadowsAcrossFace->complianceDegree);
-		parseTernaryOutput(outputs[14][0], reqs->darkTintedLenses->value, reqs->darkTintedLenses->complianceDegree);
-		parseTernaryOutput(outputs[15][0], reqs->flashReflectionOnLenses->value, reqs->flashReflectionOnLenses->complianceDegree);
-		parseTernaryOutput(outputs[16][0], reqs->frameCoveringEyes->value, reqs->frameCoveringEyes->complianceDegree);
-		parseTernaryOutput(outputs[17][0], reqs->hatCap->value, reqs->hatCap->complianceDegree);
-		parseCompliantNonCompliantOutput(outputs[18][0], reqs->veilOverFace->value, reqs->veilOverFace->complianceDegree);
-		parseTernaryOutput(outputs[19][0], reqs->mouthOpen->value, reqs->mouthOpen->complianceDegree);
-		parseCompliantDummyOutput(outputs[20][0], reqs->presenceOfOtherFacesOrToys->value, reqs->presenceOfOtherFacesOrToys->complianceDegree);
+		parseSigmoidOutput(outputs[0][0], reqs->blurred->value, reqs->blurred->complianceDegree);
+		parseSigmoidOutput(outputs[1][0], reqs->lookingAway->value, reqs->lookingAway->complianceDegree);
+		parseSigmoidOutput(outputs[2][0], reqs->unnaturalSkinTone->value, reqs->unnaturalSkinTone->complianceDegree);
+		parseSigmoidOutput(outputs[3][0], reqs->tooDarkLight->value, reqs->tooDarkLight->complianceDegree);
+		parseSigmoidOutput(outputs[4][0], reqs->washedOut->value, reqs->washedOut->complianceDegree);
+		parseSigmoidOutput(outputs[5][0], reqs->pixelation->value, reqs->pixelation->complianceDegree);
+		parseSigmoidOutput(outputs[6][0], reqs->hairAcrossEyes->value, reqs->hairAcrossEyes->complianceDegree);
+		parseSigmoidOutput(outputs[7][0], reqs->eyesClosed->value, reqs->eyesClosed->complianceDegree);
+		parseSigmoidOutput(outputs[8][0], reqs->variedBackground->value, reqs->variedBackground->complianceDegree);
+		parseSigmoidOutput(outputs[9][0], reqs->rollPitchYaw->value, reqs->rollPitchYaw->complianceDegree);
+		parseSigmoidOutput(outputs[10][0], reqs->flashReflectionOnSkin->value, reqs->flashReflectionOnSkin->complianceDegree);
+		parseSigmoidOutput(outputs[11][0], reqs->redEyes->value, reqs->redEyes->complianceDegree);
+		parseSigmoidOutput(outputs[12][0], reqs->shadowsBehindHead->value, reqs->shadowsBehindHead->complianceDegree);
+		parseSigmoidOutput(outputs[13][0], reqs->shadowsAcrossFace->value, reqs->shadowsAcrossFace->complianceDegree);
+		parseSigmoidOutput(outputs[14][0], reqs->darkTintedLenses->value, reqs->darkTintedLenses->complianceDegree);
+		parseSigmoidOutput(outputs[15][0], reqs->flashReflectionOnLenses->value, reqs->flashReflectionOnLenses->complianceDegree);
+		parseSigmoidOutput(outputs[16][0], reqs->framesTooHeavy->value, reqs->framesTooHeavy->complianceDegree);
+		parseSigmoidOutput(outputs[17][0], reqs->frameCoveringEyes->value, reqs->frameCoveringEyes->complianceDegree);
+		parseSigmoidOutput(outputs[18][0], reqs->hatCap->value, reqs->hatCap->complianceDegree);
+		parseSigmoidOutput(outputs[19][0], reqs->veilOverFace->value, reqs->veilOverFace->complianceDegree);
+		parseSigmoidOutput(outputs[20][0], reqs->mouthOpen->value, reqs->mouthOpen->complianceDegree);
+		parseSigmoidOutput(outputs[21][0], reqs->presenceOfOtherFacesOrToys->value, reqs->presenceOfOtherFacesOrToys->complianceDegree);
 
 		return reqs;
 	}
@@ -111,6 +115,15 @@ private:
 
 		value = (REQUIREMENT_VALUE)maxLoc.x;
 		complianceDegree = (value == REQUIREMENT_VALUE::NON_COMPLIANT) ? (int) ((1.0f - output.at<float>(0, 0))*100.0f) : (int) (output.at<float>(0, 1)*100.0f);
+	}
+
+	static void parseSigmoidOutput(cv::Mat output, REQUIREMENT_VALUE& value, int& complianceDegree)
+	{
+		cv::Point maxLoc;
+		cv::minMaxLoc(output, NULL, NULL, (cv::Point *)0, &maxLoc);
+
+		value = (REQUIREMENT_VALUE)maxLoc.x;
+		complianceDegree = (int)(output.at<float>(0, 0) * 100.0f);
 	}
 
 	static void parseTernaryOutput(cv::Mat output, REQUIREMENT_VALUE& value, int& complianceDegree)
