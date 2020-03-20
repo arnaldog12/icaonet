@@ -7,6 +7,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>C:\tensorflow\tensorflow-cpu;C:\tensorflow\tensorflow-cpu\build;C:\tensorflow\tensorflow-cpu\build\external\eigen_archive;C:\tensorflow\tensorflow-cpu\third_party\eigen3;C:\tensorflow\tensorflow-cpu\build\protobuf\src\protobuf\src;C:\tensorflow\tensorflow-cpu\build\nsync\src\nsync\public;C:\tensorflow\tensorflow-cpu\build\snappy\src\snappy;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>COMPILER_MSVC;NOMINMAX;TENSORFLOW_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4554</DisableSpecificWarnings>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
