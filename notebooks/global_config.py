@@ -1,4 +1,4 @@
-USER_IDS = "2"
+USER_IDS = "3"
 
 FOLDER_IMAGES = '../data/pybossa/images/'
 FOLDER_MRKS = f'../data/pybossa/ground_truth/{USER_IDS}/'
