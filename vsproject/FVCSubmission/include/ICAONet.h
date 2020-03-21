@@ -25,7 +25,7 @@ public:
 
 		TensorflowPlaceholder::tensorDict feedDict;
 		feedDict.push_back(TensorflowPlaceholder::tensor("input:0", TensorflowUtils::mat2tensor<float>(im)));
-		std::vector<std::vector<cv::Mat>> outputs = graph->run(feedDict, { "blurred/Sigmoid:0", "looking_away/Sigmoid:0", "ink_marked_creased/Sigmoid:0", "unnatural_skin_tone/Sigmoid:0", "too_dark_light/Sigmoid:0", "washed_out/Sigmoid:0", "pixelation/Sigmoid:0", "hair_across_eyes/Sigmoid:0", "eyes_closed/Sigmoid:0", "varied_background/Sigmoid:0", "roll_pitch_yaw/Sigmoid:0", "flash_reflection_on_skin/Sigmoid:0", "red_eyes/Sigmoid:0", "shadows_behind_head/Sigmoid:0", "shadows_across_face/Sigmoid:0", "dark_tinted_lenses/Sigmoid:0", "flash_reflection_on_lenses/Sigmoid:0", "frames_too_heavy/Sigmoid:0", "frame_covering_eyes/Sigmoid:0", "hat_cap/Sigmoid:0", "veil_over_face/Sigmoid:0", "mouth_open/Sigmoid:0" });
+		std::vector<std::vector<cv::Mat>> outputs = graph->run(feedDict, { "blurred/Sigmoid:0", "looking_away/Sigmoid:0", "ink_marked_creased/Sigmoid:0", "unnatural_skin_tone/Sigmoid:0", "too_dark_light/Sigmoid:0", "washed_out/Sigmoid:0", "pixelation/Sigmoid:0", "hair_across_eyes/Sigmoid:0", "eyes_closed/Sigmoid:0", "varied_background/Sigmoid:0", "roll_pitch_yaw/Sigmoid:0", "flash_reflection_on_skin/Sigmoid:0", "red_eyes/Sigmoid:0", "shadows_behind_head/Sigmoid:0", "shadows_across_face/Sigmoid:0", "dark_tinted_lenses/Sigmoid:0", "flash_reflection_on_lenses/Sigmoid:0", "frames_too_heavy/Sigmoid:0", "frame_covering_eyes/Sigmoid:0", "hat_cap/Sigmoid:0", "veil_over_face/Sigmoid:0", "mouth_open/Sigmoid:0", "presence_of_other_faces_or_toys/Sigmoid:0" });
 
 		//for (std::vector<cv::Mat> output : outputs)
 		//	std::cout << output[0] << std::endl;
@@ -54,7 +54,7 @@ public:
 		parseSigmoidOutput(outputs[19][0], reqs->hatCap->value, reqs->hatCap->complianceDegree);
 		parseSigmoidOutput(outputs[20][0], reqs->veilOverFace->value, reqs->veilOverFace->complianceDegree);
 		parseSigmoidOutput(outputs[21][0], reqs->mouthOpen->value, reqs->mouthOpen->complianceDegree);
-		//parseSigmoidOutput(outputs[21][0], reqs->presenceOfOtherFacesOrToys->value, reqs->presenceOfOtherFacesOrToys->complianceDegree);
+		parseSigmoidOutput(outputs[22][0], reqs->presenceOfOtherFacesOrToys->value, reqs->presenceOfOtherFacesOrToys->complianceDegree);
 
 		return reqs;
 	}
