@@ -1,5 +1,5 @@
 # training params
-USER_IDS = "5"
+USER_IDS = "6"
 IMAGE_SIZE = (224, 224)
 RANDOM_SEED = 42
 
@@ -11,6 +11,3 @@ FOLDER_MODELS = '../models/autoencoders_requirements/'
 # files
 FILE_DUMP_IMAGES = '../data/pybossa/pybossa_images.pkl'
 FILE_DUMP_MRKS = '../data/pybossa/pybossa_mrks.pkl'
-
-# scripts
-SCRIPT_KERAS_TO_TENSORFLOW = "C:/keras_to_tensorflow/keras_to_tensorflow.py"

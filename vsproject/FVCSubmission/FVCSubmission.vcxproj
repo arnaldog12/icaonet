@@ -29,6 +29,7 @@
     <ClInclude Include="include\FileUtils.h" />
     <ClInclude Include="include\FvcHeader.h" />
     <ClInclude Include="include\ICAONet.h" />
+    <ClInclude Include="include\NetworkOutputs.h" />
     <ClInclude Include="include\OutputFile.h" />
     <ClInclude Include="include\PhotographicRequirements.h" />
     <ClInclude Include="include\Requirement.h" />
