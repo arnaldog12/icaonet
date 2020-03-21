@@ -1,11 +1,16 @@
+# training params
 USER_IDS = "5"
+IMAGE_SIZE = (224, 224)
+RANDOM_SEED = 42
 
+# folders
 FOLDER_IMAGES = '../data/pybossa/images/'
 FOLDER_MRKS = f'../data/pybossa/ground_truth/{USER_IDS}/'
-FOLDER_DATA_AUGMENTATION = '../data/pybossa/augmentation/'
+FOLDER_MODELS = '../models/autoencoders_requirements/'
 
-FILE_DUMP = '../data/pybossa/pybossa.pkl'
+# files
+FILE_DUMP_IMAGES = '../data/pybossa/pybossa_images.pkl'
+FILE_DUMP_MRKS = '../data/pybossa/pybossa_mrks.pkl'
 
-IMAGE_SIZE = (224, 224)
-
-RANDOM_SEED = 42
+# scripts
+SCRIPT_KERAS_TO_TENSORFLOW = "C:/keras_to_tensorflow/keras_to_tensorflow.py"
