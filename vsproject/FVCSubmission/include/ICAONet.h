@@ -32,16 +32,16 @@ public:
 		std::vector<std::vector<cv::Mat>> graphOutputs = graph->run(feedDict, outputs->getOutputNames());
 
 		outputs->parse(graphOutputs);
-		delete outputs;
 
-		//std::vector<Requirement *> listReqs = reqs->getRequirements();
+		//std::vector<RequirementOutput *> netOutputs = outputs->vectorOutputs;
 		//for (int i = 0; i < graphOutputs.size(); i++)
 		//{
 		//	std::cout << graphOutputs[i][0] << " ";
-		//	std::cout << listReqs[i]->complianceDegree;
+		//	std::cout << netOutputs[i]->requirement->complianceDegree;
 		//	std::cout << std::endl;
 		//}
 
+		delete outputs;
 		return reqs;
 	}
 
@@ -49,29 +49,29 @@ private:
 	static NetworkOutputs* initNetworkOutputs(PhotographicRequirements* &reqs)
 	{
 		NetworkOutputs *outputs = new NetworkOutputs();
-		outputs->addOutput(new NetworkOutput("blurred/Sigmoid:0", reqs->blurred));
-		outputs->addOutput(new NetworkOutput("looking_away/Sigmoid:0", reqs->lookingAway));
-		outputs->addOutput(new NetworkOutput("ink_marked_creased/Sigmoid:0", reqs->inkMarkedCreased));
-		outputs->addOutput(new NetworkOutput("unnatural_skin_tone/Sigmoid:0", reqs->unnaturalSkinTone));
-		outputs->addOutput(new NetworkOutput("too_dark_light/Sigmoid:0", reqs->tooDarkLight));
-		outputs->addOutput(new NetworkOutput("washed_out/Sigmoid:0", reqs->washedOut));
-		outputs->addOutput(new NetworkOutput("pixelation/Sigmoid:0", reqs->pixelation));
-		outputs->addOutput(new NetworkOutput("hair_across_eyes/Sigmoid:0", reqs->hairAcrossEyes));
-		outputs->addOutput(new NetworkOutput("eyes_closed/Sigmoid:0", reqs->eyesClosed));
-		outputs->addOutput(new NetworkOutput("varied_background/Sigmoid:0", reqs->variedBackground));
-		outputs->addOutput(new NetworkOutput("roll_pitch_yaw/Sigmoid:0", reqs->rollPitchYaw));
-		outputs->addOutput(new NetworkOutput("flash_reflection_on_skin/Sigmoid:0", reqs->flashReflectionOnSkin));
-		outputs->addOutput(new NetworkOutput("red_eyes/Sigmoid:0", reqs->redEyes));
-		outputs->addOutput(new NetworkOutput("shadows_behind_head/Sigmoid:0", reqs->shadowsBehindHead));
-		outputs->addOutput(new NetworkOutput("shadows_across_face/Sigmoid:0", reqs->shadowsAcrossFace));
-		outputs->addOutput(new NetworkOutput("dark_tinted_lenses/Sigmoid:0", reqs->darkTintedLenses));
-		outputs->addOutput(new NetworkOutput("flash_reflection_on_lenses/Sigmoid:0", reqs->flashReflectionOnLenses));
-		outputs->addOutput(new NetworkOutput("frames_too_heavy/Sigmoid:0", reqs->framesTooHeavy));
-		outputs->addOutput(new NetworkOutput("frame_covering_eyes/Sigmoid:0", reqs->frameCoveringEyes));
-		outputs->addOutput(new NetworkOutput("hat_cap/Sigmoid:0", reqs->hatCap));
-		outputs->addOutput(new NetworkOutput("veil_over_face/Sigmoid:0", reqs->veilOverFace));
-		outputs->addOutput(new NetworkOutput("mouth_open/Sigmoid:0", reqs->mouthOpen));
-		outputs->addOutput(new NetworkOutput("presence_of_other_faces_or_toys/Sigmoid:0", reqs->presenceOfOtherFacesOrToys));
+		outputs->addOutput(new RequirementOutput("blurred/Sigmoid:0", reqs->blurred));
+		outputs->addOutput(new RequirementOutput("looking_away/Sigmoid:0", reqs->lookingAway));
+		//outputs->addOutput(new NetworkOutput("ink_marked_creased/Sigmoid:0", reqs->inkMarkedCreased));
+		outputs->addOutput(new RequirementOutput("unnatural_skin_tone/Sigmoid:0", reqs->unnaturalSkinTone));
+		outputs->addOutput(new RequirementOutput("too_dark_light/Sigmoid:0", reqs->tooDarkLight));
+		outputs->addOutput(new RequirementOutput("washed_out/Sigmoid:0", reqs->washedOut));
+		outputs->addOutput(new RequirementOutput("pixelation/Sigmoid:0", reqs->pixelation));
+		outputs->addOutput(new RequirementOutput("hair_across_eyes/Sigmoid:0", reqs->hairAcrossEyes));
+		outputs->addOutput(new RequirementOutput("eyes_closed/Sigmoid:0", reqs->eyesClosed));
+		outputs->addOutput(new RequirementOutput("varied_background/Sigmoid:0", reqs->variedBackground));
+		outputs->addOutput(new RequirementOutput("roll_pitch_yaw/Sigmoid:0", reqs->rollPitchYaw));
+		outputs->addOutput(new RequirementOutput("flash_reflection_on_skin/Sigmoid:0", reqs->flashReflectionOnSkin));
+		outputs->addOutput(new RequirementOutput("red_eyes/Sigmoid:0", reqs->redEyes));
+		outputs->addOutput(new RequirementOutput("shadows_behind_head/Sigmoid:0", reqs->shadowsBehindHead));
+		outputs->addOutput(new RequirementOutput("shadows_across_face/Sigmoid:0", reqs->shadowsAcrossFace));
+		outputs->addOutput(new RequirementOutput("dark_tinted_lenses/Sigmoid:0", reqs->darkTintedLenses));
+		outputs->addOutput(new RequirementOutput("flash_reflection_on_lenses/Sigmoid:0", reqs->flashReflectionOnLenses));
+		outputs->addOutput(new RequirementOutput("frames_too_heavy/Sigmoid:0", reqs->framesTooHeavy));
+		outputs->addOutput(new RequirementOutput("frame_covering_eyes/Sigmoid:0", reqs->frameCoveringEyes));
+		outputs->addOutput(new RequirementOutput("hat_cap/Sigmoid:0", reqs->hatCap));
+		outputs->addOutput(new RequirementOutput("veil_over_face/Sigmoid:0", reqs->veilOverFace));
+		outputs->addOutput(new RequirementOutput("mouth_open/Sigmoid:0", reqs->mouthOpen));
+		outputs->addOutput(new RequirementOutput("presence_of_other_faces_or_toys/Sigmoid:0", reqs->presenceOfOtherFacesOrToys));
 		return outputs;
 	}
 };

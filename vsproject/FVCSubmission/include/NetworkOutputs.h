@@ -3,14 +3,14 @@
 #include "opencv2/core/core.hpp"
 #include "PhotographicRequirements.h"
 
-class NetworkOutput
+class RequirementOutput
 {
 public:
 	std::string outputName;
 	Requirement *requirement;
 
 public:
-	NetworkOutput(std::string outputName, Requirement* &requirement)
+	RequirementOutput(std::string outputName, Requirement* &requirement)
 	{
 		this->outputName = outputName;
 		this->requirement = requirement;
@@ -20,17 +20,17 @@ public:
 class NetworkOutputs
 {
 public:
-	std::vector<NetworkOutput *> vectorOutputs;
+	std::vector<RequirementOutput *> vectorOutputs;
 
 public:
 	NetworkOutputs(){}
 
 	~NetworkOutputs()
 	{
-		std::vector<NetworkOutput *>().swap(this->vectorOutputs);
+		std::vector<RequirementOutput *>().swap(this->vectorOutputs);
 	}
 
-	void addOutput(NetworkOutput *output)
+	void addOutput(RequirementOutput *output)
 	{
 		this->vectorOutputs.push_back(output);
 	}
@@ -38,7 +38,7 @@ public:
 	std::vector<std::string> getOutputNames()
 	{
 		std::vector<std::string> outputNames;
-		for (NetworkOutput *output : this->vectorOutputs)
+		for (RequirementOutput *output : this->vectorOutputs)
 			outputNames.push_back(output->outputName);
 		return outputNames;
 	}
@@ -50,7 +50,7 @@ public:
 		std::size_t nOutputs = this->vectorOutputs.size();
 		for (size_t i = 0; i < nOutputs; i++)
 		{
-			NetworkOutput *currentOutput = this->vectorOutputs[i];
+			RequirementOutput *currentOutput = this->vectorOutputs[i];
 			parseSigmoidOutput(graphOutputs[i][0], currentOutput->requirement->value, currentOutput->requirement->complianceDegree);
 		}
 	}
