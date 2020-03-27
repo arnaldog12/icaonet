@@ -1,5 +1,5 @@
 # training params
-USER_IDS = "2_3_5"
+USER_IDS = "2_3_6"
 IMAGE_SIZE = (224, 224)
 RANDOM_SEED = 42
 
