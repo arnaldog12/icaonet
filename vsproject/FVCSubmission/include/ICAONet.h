@@ -33,7 +33,7 @@ public:
 
 		outputs->parse(graphOutputs);
 
-		//std::vector<RequirementOutput *> netOutputs = outputs->vectorOutputs;
+		std::vector<RequirementOutput *> netOutputs = outputs->vectorOutputs;
 		//for (int i = 0; i < graphOutputs.size(); i++)
 		//{
 		//	std::cout << graphOutputs[i][0] << " ";
@@ -51,7 +51,7 @@ private:
 		NetworkOutputs *outputs = new NetworkOutputs();
 		outputs->addOutput(new RequirementOutput("blurred/Sigmoid:0", reqs->blurred));
 		outputs->addOutput(new RequirementOutput("looking_away/Sigmoid:0", reqs->lookingAway));
-		//outputs->addOutput(new NetworkOutput("ink_marked_creased/Sigmoid:0", reqs->inkMarkedCreased));
+		outputs->addOutput(new RequirementOutput("ink_marked_creased/Sigmoid:0", reqs->inkMarkedCreased));
 		outputs->addOutput(new RequirementOutput("unnatural_skin_tone/Sigmoid:0", reqs->unnaturalSkinTone));
 		outputs->addOutput(new RequirementOutput("too_dark_light/Sigmoid:0", reqs->tooDarkLight));
 		outputs->addOutput(new RequirementOutput("washed_out/Sigmoid:0", reqs->washedOut));
