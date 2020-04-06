@@ -1,5 +1,5 @@
 # training params
-USER_IDS = "best_combination"
+USER_IDS = "best_branches"
 IMAGE_SIZE = (224, 224)
 RANDOM_SEED = 42
 
