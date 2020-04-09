@@ -1,3 +1,5 @@
+import numpy as np
+import tensorflow as tf
 from keras import backend as K
 
 def recall(y_true, y_pred):
@@ -41,3 +43,23 @@ def matthews_correlation_coefficient(y_true, y_pred):
     num = tp * tn - fp * fn
     den = (tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)
     return num / K.sqrt(den + K.epsilon())
+
+
+def equal_error_rate(y_true, y_pred):
+    n_imp = tf.count_nonzero(tf.equal(y_true, 0), dtype=tf.float32) + tf.constant(K.epsilon())
+    n_gen = tf.count_nonzero(tf.equal(y_true, 1), dtype=tf.float32) + tf.constant(K.epsilon())
+    
+    scores_imp = tf.boolean_mask(y_pred, tf.equal(y_true, 0))
+    scores_gen = tf.boolean_mask(y_pred, tf.equal(y_true, 1))
+    
+    loop_vars = (tf.constant(0.0), tf.constant(1.0), tf.constant(0.0))
+    cond = lambda t, fpr, fnr: tf.greater_equal(fpr, fnr)
+    body = lambda t, fpr, fnr: (
+        t + 0.001, 
+        tf.divide(tf.count_nonzero(tf.greater_equal(scores_imp, t), dtype=tf.float32), n_imp), 
+        tf.divide(tf.count_nonzero(tf.less(scores_gen, t), dtype=tf.float32), n_gen)
+    )
+    t, fpr, fnr = tf.while_loop(cond, body, loop_vars, back_prop=False)
+    eer = (fpr + fnr) / 2
+    
+    return eer
