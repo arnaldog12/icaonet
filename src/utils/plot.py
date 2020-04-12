@@ -2,17 +2,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 import itertools
 
-def image_batch(batch, y_true, y_pred=None, labels=None, n_cols=10, figsize=(16,5)):
+def image_batch(batch, y_true, y_pred=None, dict_labels=None, n_cols=10, figsize=(16,5)):
     plt.figure(figsize=figsize)
     
     y_pred = y_true if y_pred is None else y_pred
-    labels = y_true if labels is None else labels
     n_rows = batch.shape[0] // n_cols + 1
     for img, true, pred, sub in zip(batch, y_true, y_pred, range(1, len(batch)+1)):
         plt.subplot(n_rows, n_cols, sub)
         plt.imshow(img.astype(np.uint8))
         
-        plt.title("{}".format(labels[pred]), color = 'green' if true == pred else 'red')
+        true = true if dict_labels is None else dict_labels[true]
+        pred = pred if dict_labels is None else dict_labels[pred]
+        plt.title(f'T: {true} P: {pred}', color = 'green' if true == pred else 'red')
         plt.axis('off')
     plt.tight_layout()
 
