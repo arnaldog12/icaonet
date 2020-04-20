@@ -1,0 +1,22 @@
+name: dl-gpu
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - ipython
+  - tensorflow-gpu=1.13
+  - jupyter
+  - numpy
+  - matplotlib
+  - seaborn
+  - pandas
+  - scikit-learn
+  - flake8
+  - opencv
+  - keras-gpu
+  - pillow
+  - pydot
+  - shap
+  - scipy=1.1.0
+prefix: C:\Users\arnal\Miniconda3\envs\dl-gpu
+
