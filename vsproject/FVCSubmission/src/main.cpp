@@ -31,21 +31,7 @@ int main(int argc, char *argv[])
 	{
 		Eye *rightEye = new Eye();
 		Eye *leftEye = new Eye();
-
-		cv::Mat imToRemove;
-		PhotographicRequirements *reqs = ICAONet::run(im, errorCode, imToRemove);
-
-		// REMOVE
-		cv::String outputFolder = "C:\\Users\\arnal\\Documents\\GitHub\\doutorado\\data\\pybossa\\cropped_faces\\";
-		
-		size_t last_slash, last_point;
-		last_slash = faceImageFile.find_last_of("\\");
-		last_point = faceImageFile.find_last_of(".");
-		cv::String outputFileName = faceImageFile.substr(last_slash + 1, string::npos);
-
-		cv::String outputFile = cv::format("%s%s", outputFolder.c_str(), outputFileName.c_str());
-		cv::imwrite(outputFile, imToRemove);
-		//REMOVE
+		PhotographicRequirements *reqs = ICAONet::run(im);
 
 		outFile->write(faceImageFile, errorCodeToRetVal(errorCode), rightEye, leftEye, reqs);
 

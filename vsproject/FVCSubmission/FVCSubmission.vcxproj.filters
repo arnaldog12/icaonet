@@ -62,9 +62,6 @@
     <ClInclude Include="include\NetworkOutputs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\FaceDetector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FVCSubmission.rc">

@@ -3,7 +3,6 @@
 // Used by FVCSubmission.rc
 //
 #define MODEL                       101
-#define MODEL_FACE_DETECTOR			102
 
 // Next default values for new objects
 // 
