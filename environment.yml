@@ -8,15 +8,16 @@ dependencies:
   - jupyter
   - numpy
   - matplotlib
+  - mlflow=1.7.0
   - seaborn
   - pandas
-  - scikit-learn
-  - flake8
-  - opencv
-  - keras-gpu
+  - scikit-learn=0.22.1
+  - opencv=4.2.0
+  - keras-gpu=2.3.1
   - pillow
   - pydot
-  - shap
+  - shap=0.35.0
   - scipy=1.1.0
-prefix: C:\Users\arnal\Miniconda3\envs\dl-gpu
-
+  - imbalanced-learn=0.6.2
+  - pip:
+    - scikit-multilearn==0.2.0
