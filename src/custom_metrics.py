@@ -63,3 +63,21 @@ def equal_error_rate(y_true, y_pred):
     eer = (fpr + fnr) / 2
     
     return eer
+
+def area_under_the_roc_curve(y_true, y_pred):
+    true = K.flatten(y_true)
+    pred = K.flatten(y_pred)
+
+    totalCount = K.shape(true)[0]
+    values, indices = tf.nn.top_k(pred, k=totalCount)   
+    sortedTrue = K.gather(true, indices)
+
+    negatives = 1 - sortedTrue
+    TPCurve = K.cumsum(sortedTrue)
+    auc = K.sum(TPCurve * negatives)
+
+    totalCount = K.cast(totalCount, K.floatx())
+    positiveCount = K.sum(true)
+    negativeCount = totalCount - positiveCount
+    totalArea = positiveCount * negativeCount
+    return auc / totalArea
