@@ -6,6 +6,7 @@
 #include "opencv2/core/core.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "DeepLearning/TensorflowGraph.h"
+#include "FaceDetector.h"
 #include "NetworkOutputs.h"
 #include "Resource.h"
 
@@ -14,35 +15,43 @@ using deeplearning::TensorflowGraph;
 class ICAONet
 {
 public:
-	static PhotographicRequirements* run(cv::Mat imageColor)
+	static PhotographicRequirements* run(cv::Mat imageColor, ErrorCode& errorCode, cv::Mat& parameterToRemove)
 	{
 		Resource *resource = new Resource(101);
 		std::ostringstream ss(resource->asString());
 		TensorflowGraph *graph = new TensorflowGraph(ss);
 
-		cv::Mat im;
-		imageColor.convertTo(im, CV_32F, 1.0f / 255.0f);
-		cv::resize(im, im, cv::Size(224, 224), 0.0, 0.0, cv::INTER_AREA);
-
 		PhotographicRequirements *reqs = new PhotographicRequirements();
 		NetworkOutputs *outputs = initNetworkOutputs(reqs);
 
-		TensorflowPlaceholder::tensorDict feedDict;
-		feedDict.push_back(TensorflowPlaceholder::tensor("input:0", TensorflowUtils::mat2tensor<float>(im)));
-		std::vector<std::vector<cv::Mat>> graphOutputs = graph->run(feedDict, outputs->getOutputNames());
+		cv::Mat preprocessedImg = preprocessing(imageColor, errorCode);
+		if (errorCode != ErrorCode::SUCCESS)
+			return reqs;
 
-		outputs->parse(graphOutputs);
-
-		std::vector<RequirementOutput *> netOutputs = outputs->vectorOutputs;
-		//for (int i = 0; i < graphOutputs.size(); i++)
-		//{
-		//	std::cout << graphOutputs[i][0] << " ";
-		//	std::cout << netOutputs[i]->requirement->complianceDegree;
-		//	std::cout << std::endl;
-		//}
-
-		delete outputs;
+		parameterToRemove = preprocessedImg.clone();
 		return reqs;
+
+		//cv::Mat im;
+		//preprocessedImg.convertTo(im, CV_32F, 1.0f / 255.0f);
+		//cv::resize(im, im, cv::Size(224, 224), 0.0, 0.0, cv::INTER_AREA);
+
+		//TensorflowPlaceholder::tensorDict feedDict;
+		//feedDict.push_back(TensorflowPlaceholder::tensor("input:0", TensorflowUtils::mat2tensor<float>(im)));
+		//std::vector<std::vector<cv::Mat>> graphOutputs = graph->run(feedDict, outputs->getOutputNames());
+
+		//outputs->parse(graphOutputs);
+
+		//std::vector<RequirementOutput *> netOutputs = outputs->vectorOutputs;
+		////for (int i = 0; i < graphOutputs.size(); i++)
+		////{
+		////	std::cout << graphOutputs[i][0] << " ";
+		////	std::cout << netOutputs[i]->requirement->complianceDegree;
+		////	std::cout << std::endl;
+		////}
+
+		//errorCode = ErrorCode::SUCCESS;
+		//delete outputs;
+		//return reqs;
 	}
 
 private:
@@ -73,5 +82,38 @@ private:
 		outputs->addOutput(new RequirementOutput("mouth_open/Sigmoid:0", reqs->mouthOpen));
 		outputs->addOutput(new RequirementOutput("presence_of_other_faces_or_toys/Sigmoid:0", reqs->presenceOfOtherFacesOrToys));
 		return outputs;
+	}
+
+	static cv::Mat preprocessing(cv::Mat bgrImage, ErrorCode &errorCode)
+	{
+		cv::Rect faceRect = FaceDetector::run(bgrImage);
+		if (faceRect.empty())
+		{
+			errorCode = ErrorCode::CANNOT_DETECT_FACE;
+			return cv::Mat();
+		}
+
+		cv::Rect padRect(faceRect + cv::Size((int) (faceRect.width * 1.5), (int) (faceRect.height * 1.5)));
+		padRect.height = std::max(padRect.height, padRect.width);
+		padRect.width = std::max(padRect.height, padRect.width);
+		
+		cv::Point centerPad((int)((padRect.x + padRect.width) / 2), (int)((padRect.y + padRect.height) / 2));
+		cv::Point centerFace((int)((faceRect.x + faceRect.width) / 2), (int)((faceRect.y + faceRect.height) / 2));
+		cv::Point offsetCenter(centerFace.x - centerPad.x, centerFace.y - centerPad.y);
+		padRect += offsetCenter;
+
+		int top = 0, bottom = 0, left = 0, right = 0;
+		if (padRect.x < 0) left = -padRect.x;
+		if (padRect.y < 0) top = -padRect.y;
+		if (padRect.x + padRect.width > bgrImage.cols) right = (padRect.x + padRect.width) - bgrImage.cols;
+		if (padRect.y + padRect.height > bgrImage.rows) bottom = (padRect.y + padRect.height) - bgrImage.rows;
+
+		cv::copyMakeBorder(bgrImage, bgrImage, top, bottom, left, right, cv::BORDER_CONSTANT, cv::Scalar(0));
+		padRect.x += left;
+		padRect.y += top;
+
+		errorCode = ErrorCode::SUCCESS;
+		cv::Mat result = bgrImage(padRect).clone();
+		return result;
 	}
 };

@@ -38,7 +38,8 @@ typedef enum ErrorCode
 	IMAGE_LOAD_ERROR = 5,
 	CANNOT_UPDATE_OUTPUT_FILE = 7,
 	INIT_ERROR = 100,
-	SETUP_ERROR = 101
+	SETUP_ERROR = 101,
+	CANNOT_DETECT_FACE = 200,
 }ErrorCode;
 
 typedef enum RetVal
@@ -56,7 +57,8 @@ static RetVal errorCodeToRetVal(ErrorCode errorCode)
 	{
 	case SUCCESS:					return RetVal::IMAGE_CAN_BE_PROCESSED;
 	case CANNOT_OPEN_IMAGE_FILE:	return RetVal::UNSUPPORTED_IMAGE_FORMAT;
-	case IMAGE_LOAD_ERROR:			return RetVal::UNUSEFUL_IMAGE_CONTENT;
+	case IMAGE_LOAD_ERROR:			
+	case CANNOT_DETECT_FACE:		return RetVal::UNUSEFUL_IMAGE_CONTENT;
 	default:						return RetVal::NO_MORE_INFO;
 	}
 }
