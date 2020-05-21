@@ -119,7 +119,7 @@ venv.bak/
 *Rubbish*
 data/
 models/
-notebooks/mlruns/
+**/mlruns/**
 logs/
 *.pkl
 *.pb
