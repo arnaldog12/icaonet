@@ -189,5 +189,19 @@ namespace MrkReview
         {
             this.FilterGTPairsByRequirementsAndValues();
         }
+
+        private void listBoxImgs_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && (e.KeyCode == Keys.C))
+                Clipboard.SetText(this.listBoxImgs.SelectedItem.ToString() + "\n");
+
+            if (e.Control && (e.KeyCode == Keys.A))
+            {
+                string allImages = "";
+                foreach (string item in this.listBoxImgs.Items)
+                    allImages += (item + "\n");
+                Clipboard.SetText(allImages);
+            }
+        }
     }
 }
