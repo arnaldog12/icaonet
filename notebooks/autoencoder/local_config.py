@@ -1,13 +1,11 @@
-# training params
 USER_IDS = "best_eer"
-IMAGE_SIZE = (224, 224)
-RANDOM_SEED = 42
 
 # folders
-FOLDER_IMAGES = '../data/pybossa/images/'
-FOLDER_MRKS = f'../data/pybossa/ground_truth/{USER_IDS}/'
-FOLDER_MODELS = '../models/autoencoders_requirements/'
+FOLDER_IMAGES = '../../data/cropped_faces/images/'
+FOLDER_MRKS = '../../data/cropped_faces/ground_truth/'
+FOLDER_MODELS = '../../models/siamese_networks/'
 
 # files
-FILE_DUMP_IMAGES = '../data/pybossa/pybossa_images.pkl'
-FILE_DUMP_MRKS = '../data/pybossa/pybossa_mrks.pkl'
+FILE_AUTOENCODER_SAMPLES = '../../data/siamese_networks_samples.pkl'
+FILE_DUMP_IMAGES = '../../data/cropped_faces/cropped_faces_images.pkl'
+FILE_DUMP_MRKS = '../../data/cropped_faces/cropped_faces_mrks.pkl'
