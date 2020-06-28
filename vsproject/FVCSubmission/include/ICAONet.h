@@ -12,7 +12,7 @@
 
 using deeplearning::TensorflowGraph;
 
-#define IMAGE_SIZE cv::Size(160, 160)
+#define IMAGE_SIZE cv::Size(224, 224)
 
 class ICAONet
 {

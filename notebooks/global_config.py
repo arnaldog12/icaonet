@@ -1,5 +1,5 @@
 # training params
-IMAGE_SIZE = (160, 160)
+IMAGE_SIZE = (224, 224)
 RANDOM_SEED = 42
 
 # folders
