@@ -12,7 +12,7 @@
 
 using deeplearning::TensorflowGraph;
 
-#define IMAGE_SIZE cv::Size(224, 224)
+#define IMAGE_SIZE cv::Size(160, 160)
 
 class ICAONet
 {
@@ -31,8 +31,8 @@ public:
 			return reqs;
 
 		cv::Mat im;
-		preprocessedImg.convertTo(im, CV_32F, 1.0f / 255.0f);
-		cv::resize(im, im, IMAGE_SIZE, 0.0, 0.0, cv::INTER_AREA);
+		cv::resize(preprocessedImg, im, IMAGE_SIZE, 0.0, 0.0, cv::INTER_AREA);
+		im.convertTo(im, CV_32F, 1.0f / 255.0f);
 
 		TensorflowPlaceholder::tensorDict feedDict;
 		feedDict.push_back(TensorflowPlaceholder::tensor("input:0", TensorflowUtils::mat2tensor<float>(im)));
@@ -41,9 +41,9 @@ public:
 		outputs->parse(graphOutputs);
 
 		std::vector<RequirementOutput *> netOutputs = outputs->vectorOutputs;
-		//for (int i = 0; i < graphOutputs.size(); i++)
+		//for (int i = 0; i < netOutputs.size(); i++)
 		//{
-		//	std::cout << graphOutputs[i][0] << " ";
+		//	std::cout << graphOutputs[0][0].at<float>(0, i) << " ";
 		//	std::cout << netOutputs[i]->requirement->complianceDegree;
 		//	std::cout << std::endl;
 		//}
@@ -59,7 +59,7 @@ private:
 		NetworkOutputs *outputs = new NetworkOutputs();
 		outputs->addOutput(new RequirementOutput("blurred/Sigmoid:0", reqs->blurred));
 		outputs->addOutput(new RequirementOutput("looking_away/Sigmoid:0", reqs->lookingAway));
-		//outputs->addOutput(new RequirementOutput("ink_marked_creased/Sigmoid:0", reqs->inkMarkedCreased));
+		outputs->addOutput(new RequirementOutput("ink_marked_creased/Sigmoid:0", reqs->inkMarkedCreased));
 		outputs->addOutput(new RequirementOutput("unnatural_skin_tone/Sigmoid:0", reqs->unnaturalSkinTone));
 		outputs->addOutput(new RequirementOutput("too_dark_light/Sigmoid:0", reqs->tooDarkLight));
 		outputs->addOutput(new RequirementOutput("washed_out/Sigmoid:0", reqs->washedOut));
@@ -74,7 +74,7 @@ private:
 		outputs->addOutput(new RequirementOutput("shadows_across_face/Sigmoid:0", reqs->shadowsAcrossFace));
 		outputs->addOutput(new RequirementOutput("dark_tinted_lenses/Sigmoid:0", reqs->darkTintedLenses));
 		outputs->addOutput(new RequirementOutput("flash_reflection_on_lenses/Sigmoid:0", reqs->flashReflectionOnLenses));
-		//outputs->addOutput(new RequirementOutput("frames_too_heavy/Sigmoid:0", reqs->framesTooHeavy));
+		outputs->addOutput(new RequirementOutput("frames_too_heavy/Sigmoid:0", reqs->framesTooHeavy));
 		outputs->addOutput(new RequirementOutput("frame_covering_eyes/Sigmoid:0", reqs->frameCoveringEyes));
 		outputs->addOutput(new RequirementOutput("hat_cap/Sigmoid:0", reqs->hatCap));
 		outputs->addOutput(new RequirementOutput("veil_over_face/Sigmoid:0", reqs->veilOverFace));

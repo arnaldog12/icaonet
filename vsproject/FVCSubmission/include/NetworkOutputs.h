@@ -38,8 +38,9 @@ public:
 	std::vector<std::string> getOutputNames()
 	{
 		std::vector<std::string> outputNames;
-		for (RequirementOutput *output : this->vectorOutputs)
-			outputNames.push_back(output->outputName);
+		//for (RequirementOutput *output : this->vectorOutputs)
+		//	outputNames.push_back(output->outputName);
+		outputNames.push_back("outputs/Sigmoid:0");
 		return outputNames;
 	}
 
@@ -51,7 +52,8 @@ public:
 		for (size_t i = 0; i < nOutputs; i++)
 		{
 			RequirementOutput *currentOutput = this->vectorOutputs[i];
-			parseSigmoidOutput(graphOutputs[i][0], currentOutput->requirement->value, currentOutput->requirement->complianceDegree);
+			//parseSigmoidOutput(graphOutputs[i][0], currentOutput->requirement->value, currentOutput->requirement->complianceDegree);
+			parseMultilabelOutput(graphOutputs[0][0], (int) i, currentOutput->requirement->value, currentOutput->requirement->complianceDegree);
 		}
 	}
 
@@ -65,5 +67,9 @@ private:
 		value = (complianceDegree >= 50) ? REQUIREMENT_VALUE::COMPLIANT : REQUIREMENT_VALUE::NON_COMPLIANT;
 	}
 
+	static void parseMultilabelOutput(cv::Mat output, int index, REQUIREMENT_VALUE& value, int& complianceDegree)
+	{
+		complianceDegree = (int)(output.at<float>(0, index) * 100.0f);
+		value = (complianceDegree >= 50) ? REQUIREMENT_VALUE::COMPLIANT : REQUIREMENT_VALUE::NON_COMPLIANT;
+	}
 };
-
