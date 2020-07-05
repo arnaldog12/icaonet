@@ -64,6 +64,7 @@ def equal_error_rate(y_true, y_pred):
     
     return eer
 
+
 def fbeta(y_true, y_pred, beta=2):
     y_pred = K.clip(y_pred, 0, 1)
 
