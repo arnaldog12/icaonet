@@ -5,6 +5,7 @@ channels:
 dependencies:
   - ipython
   - tensorflow-gpu=1.13
+  - h5py=2.10.0
   - jupyter
   - numpy
   - matplotlib
