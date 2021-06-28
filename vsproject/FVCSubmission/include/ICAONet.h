@@ -35,7 +35,7 @@ public:
 		im.convertTo(im, CV_32F, 1.0f / 255.0f);
 
 		TensorflowPlaceholder::tensorDict feedDict;
-		feedDict.push_back(TensorflowPlaceholder::tensor("input:0", TensorflowUtils::mat2tensor<float>(im)));
+		feedDict.push_back(TensorflowPlaceholder::tensor("input_3:0", TensorflowUtils::mat2tensor<float>(im)));
 		std::vector<std::vector<cv::Mat>> graphOutputs = graph->run(feedDict, outputs->getOutputNames());
 
 		outputs->parse(graphOutputs);
