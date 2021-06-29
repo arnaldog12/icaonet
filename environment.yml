@@ -7,7 +7,7 @@ dependencies:
   - tensorflow-gpu=1.13
   - h5py=2.10.0
   - jupyter
-  - numpy
+  - numpy<1.17.0
   - matplotlib
   - mlflow=1.7.0
   - seaborn
