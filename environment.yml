@@ -3,20 +3,20 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - ipython
+  - ipython==5.8.0
   - tensorflow-gpu=1.13
   - h5py=2.10.0
-  - jupyter
+  - jupyter==1.0.0
   - numpy<1.17.0
-  - matplotlib
+  - matplotlib==3.3.3
   - mlflow=1.7.0
-  - seaborn
-  - pandas
+  - seaborn==0.11.1
+  - pandas==1.2.3
   - scikit-learn=0.22.1
   - opencv=4.2.0
   - keras-gpu=2.3.1
-  - pillow
-  - pydot
+  - pillow==8.2.0
+  - pydot==
   - shap=0.35.0
   - scipy=1.1.0
   - imbalanced-learn=0.6.2
