@@ -3,7 +3,6 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - tensorflow-gpu==1.13.1
   - keras-gpu==2.3.1
   - ipython
   - jupyter
@@ -15,3 +14,6 @@ dependencies:
   - mlflow
   - numpy[version='<1.17']
   - imbalanced-learn=0.6.2
+  - pip:
+    - scikit-multilearn==0.2.0
+    - tensorflow-gpu==1.13.1
