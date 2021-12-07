@@ -5,24 +5,19 @@ from sys import stdout
 
 
 class ICAODataset():
-    def __init__(self, folder_images, folder_mrks):
-        self.folder_images = folder_images
-        self.folder_mrks = folder_mrks
+    def __init__(self, ):
         self.image_files = []
         self.images = []
         self.mrks = []
 
-    def load(self, **kwargs):
-        self.images, self.image_files = load.images_from_folder(self.folder_images, **kwargs)
+    def load(self, folder_images, folder_mrks, **kwargs):
+        self.images, self.image_files = load.images_from_folder(folder_images, **kwargs)
 
         mrk_file = lambda filepath: splitext(basename(filepath))[0] + ".mrk"
-        list_mrks = [join(self.folder_mrks, mrk_file(file)) for file in self.image_files]
+        list_mrks = [join(folder_mrks, mrk_file(file)) for file in self.image_files]
         self.mrks = load.mrk_files_from_list_files(list_mrks)
 
-    def save(self, folder_images=None, folder_mrks=None, show_progress=True):
-        folder_images = folder_images if folder_images else self.folder_images
-        folder_mrks = folder_mrks if folder_mrks else self.folder_mrks
-
+    def save(self, folder_images, folder_mrks, show_progress=True):
         n_files = len(self.image_files)
         i = 1
         for image_file, image, mrk in zip(self.image_files, self.images, self.mrks):
