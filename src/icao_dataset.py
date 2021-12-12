@@ -30,3 +30,7 @@ class ICAODataset():
             output_mrk = join(folder_mrks, basename(mrk.filepath))
             cv2.imwrite(output_img, image)
             mrk.save(output_mrk)
+
+    def __iter__(self):
+        for file, image, mrk in zip(self.image_files, self.images, self.mrks):
+            yield (file, image, mrk)
