@@ -18,8 +18,8 @@ class MRKFile():
     @staticmethod
     def __load(filepath):
         with open(filepath, 'r') as mrk_file:
-            right_eye = Eye(*mrk_file.readline().replace('\n', '').split(' '))
-            left_eye = Eye(*mrk_file.readline().replace('\n', '').split(' '))
+            right_eye = Eye(*map(int, mrk_file.readline().replace('\n', '').split(' ')))
+            left_eye = Eye(*map(int, mrk_file.readline().replace('\n', '').split(' ')))
             photo_reqs = PhotographicRequirements(*[int(line.replace('\n', '')) for line in mrk_file.readlines()])
         return (right_eye, left_eye, photo_reqs)
 
