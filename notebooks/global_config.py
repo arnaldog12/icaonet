@@ -7,6 +7,4 @@ FOLDER_IMAGES = 'data/cropped_faces/images/'
 FOLDER_MRKS = 'data/cropped_faces/ground_truth/'
 
 # files
-FILE_DATASET = 'data/inkmarked_creased/dataset.pkl'
-FILE_DUMP_IMAGES = 'data/cropped_faces/cropped_faces_images.pkl'
-FILE_DUMP_MRKS = 'data/cropped_faces/cropped_faces_mrks.pkl'
+FILE_DATASET = 'data/cropped_faces/dataset.pkl'
