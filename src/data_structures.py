@@ -11,6 +11,12 @@ class Point:
     def __truediv__(self, other):
         return Point(self.x / other.x, self.y / other.y)
 
+    def __add__(self, other):
+        return Point(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other):
+        return Point(self.x - other.x, self.y - other.y)
+
 
 class Eye:
     """A class to represent an Eye according to ICAO standards."""
@@ -19,13 +25,11 @@ class Eye:
         self.left_corner = Point(x_left, y_left)
         self.right_corner = Point(x_right, y_right)
 
+    def from_left_and_right_corners(left_corner, right_corner):
+        return Eye(left_corner.x, left_corner.y, right_corner.x, right_corner.y)
+
     def __str__(self):
         return 'left corner: {} right_corner: {}'.format(self.left_corner, self.right_corner)
-    
-    def __truediv__(self, other):
-        new_left = self.left_corner / other.left_corner
-        new_right = self.right_corner / other.right_corner
-        return Eye(new_left.x, new_left.y, new_right.x, new_right.y)
 
 
 class Rect():
