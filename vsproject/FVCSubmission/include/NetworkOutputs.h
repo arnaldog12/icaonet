@@ -1,72 +1,41 @@
 #pragma once
 
 #include "opencv2/core/core.hpp"
-#include "PhotographicRequirements.h"
+#include "EvaluationResults.h"
 
-class RequirementOutput
-{
-public:
-	std::string outputName;
-	Requirement *requirement;
-
-public:
-	RequirementOutput(std::string outputName, Requirement* &requirement)
-	{
-		this->outputName = outputName;
-		this->requirement = requirement;
-	}
-};
 
 class NetworkOutputs
 {
 public:
-	std::vector<RequirementOutput *> vectorOutputs;
-
-public:
-	NetworkOutputs(){}
-
-	~NetworkOutputs()
+	static std::vector<std::string> getOutputNames()
 	{
-		std::vector<RequirementOutput *>().swap(this->vectorOutputs);
-	}
-
-	void addOutput(RequirementOutput *output)
-	{
-		this->vectorOutputs.push_back(output);
-	}
-
-	std::vector<std::string> getOutputNames()
-	{
-		std::vector<std::string> outputNames;
-		//for (RequirementOutput *output : this->vectorOutputs)
-		//	outputNames.push_back(output->outputName);
-		outputNames.push_back("outputs/Sigmoid:0");
+		std::vector<std::string> outputNames = {
+			 "output_reqs/Sigmoid:0",
+			 "output_eyes/Sigmoid:0",
+		};
 		return outputNames;
 	}
 
-	void parse(std::vector<std::vector<cv::Mat>> graphOutputs)
+	static void parseRequirements(std::vector<std::vector<cv::Mat>> graphOutputs, PhotographicRequirements* &photoReqs)
 	{
-		assert(graphOutputs.size() == this->vectorOutputs.size());
+		std::vector<Requirement *> listReqs = photoReqs->getRequirements();
+		size_t nReqs = listReqs.size();
+		for (size_t i = 0; i < nReqs; i++)
+			parseMultilabelOutput(graphOutputs[0][0], (int)i, listReqs[i]->value, listReqs[i]->complianceDegree);
+	}
 
-		std::size_t nOutputs = this->vectorOutputs.size();
-		for (size_t i = 0; i < nOutputs; i++)
-		{
-			RequirementOutput *currentOutput = this->vectorOutputs[i];
-			//parseSigmoidOutput(graphOutputs[i][0], currentOutput->requirement->value, currentOutput->requirement->complianceDegree);
-			parseMultilabelOutput(graphOutputs[0][0], (int) i, currentOutput->requirement->value, currentOutput->requirement->complianceDegree);
-		}
+	static void parseEyes(std::vector<std::vector<cv::Mat>> graphOutputs, Eye* &rightEye, Eye* &leftEye, cv::Size imSize, cv::Point offset)
+	{
+		cv::Mat eyeOutput = graphOutputs[1][0];
+		int width = imSize.width;
+		int height = imSize.height;
+		rightEye->leftCorner = cv::Point((int) (eyeOutput.at<float>(0, 0) * width), (int) (eyeOutput.at<float>(0, 1) * height)) + offset;
+		rightEye->rightCorner = cv::Point((int) (eyeOutput.at<float>(0, 2) * width), (int) (eyeOutput.at<float>(0, 3) * height)) + offset;
+		leftEye->leftCorner = cv::Point((int) (eyeOutput.at<float>(0, 4) * width), (int) (eyeOutput.at<float>(0, 5) * height)) + offset;
+		leftEye->rightCorner = cv::Point((int) (eyeOutput.at<float>(0, 6) * width), (int) (eyeOutput.at<float>(0, 7) * height)) + offset;
 	}
 
 private:
-	static void parseSigmoidOutput(cv::Mat output, REQUIREMENT_VALUE& value, int& complianceDegree)
-	{
-		cv::Point maxLoc;
-		cv::minMaxLoc(output, NULL, NULL, (cv::Point *)0, &maxLoc);
-
-		complianceDegree = (int)(output.at<float>(0, 0) * 100.0f);
-		value = (complianceDegree >= 50) ? REQUIREMENT_VALUE::COMPLIANT : REQUIREMENT_VALUE::NON_COMPLIANT;
-	}
-
 	static void parseMultilabelOutput(cv::Mat output, int index, REQUIREMENT_VALUE& value, int& complianceDegree)
 	{
 		complianceDegree = (int)(output.at<float>(0, index) * 100.0f);

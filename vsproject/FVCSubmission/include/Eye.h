@@ -9,8 +9,8 @@ public:
 	
 	Eye() 
 	{
-		this->leftCorner = cv::Point(1, 1);
-		this->rightCorner = cv::Point(1, 1);
+		this->leftCorner = cv::Point(-1, -1);
+		this->rightCorner = cv::Point(-1, -1);
 	}
 	
 	Eye(cv::Point leftCorner, cv::Point rightCorner)
