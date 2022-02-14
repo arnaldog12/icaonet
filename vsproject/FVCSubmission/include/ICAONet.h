@@ -11,7 +11,7 @@
 #include "NetworkOutputs.h"
 #include "Resource.h"
 
-#include "opencv2/highgui/highgui.hpp" // delete this import
+#include "opencv2/highgui/highgui.hpp" // debug only
 
 using deeplearning::TensorflowGraph;
 
