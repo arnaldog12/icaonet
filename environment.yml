@@ -1,4 +1,4 @@
-name: dl-gpu
+name: icaonet
 channels:
   - conda-forge
   - defaults
