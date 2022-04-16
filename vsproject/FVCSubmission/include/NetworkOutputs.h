@@ -10,8 +10,8 @@ public:
 	static std::vector<std::string> getOutputNames()
 	{
 		std::vector<std::string> outputNames = {
-			 "outputs/Sigmoid:0",
-			 "output_eyes/Sigmoid:0",
+			 "output_reqs/Sigmoid:0",
+			 "output_eyes/BiasAdd:0",
 		};
 		return outputNames;
 	}
@@ -30,9 +30,9 @@ public:
 		int width = imSize.width;
 		int height = imSize.height;
 		rightEye->leftCorner = cv::Point((int) (eyeOutput.at<float>(0, 0) * width), (int) (eyeOutput.at<float>(0, 1) * height)) + offset;
-		rightEye->rightCorner = cv::Point((int) (eyeOutput.at<float>(0, 2) * width), (int) (eyeOutput.at<float>(0, 3) * height)) + offset;
-		leftEye->leftCorner = cv::Point((int) (eyeOutput.at<float>(0, 4) * width), (int) (eyeOutput.at<float>(0, 5) * height)) + offset;
-		leftEye->rightCorner = cv::Point((int) (eyeOutput.at<float>(0, 6) * width), (int) (eyeOutput.at<float>(0, 7) * height)) + offset;
+		rightEye->rightCorner = rightEye->leftCorner;
+		leftEye->leftCorner = cv::Point((int) (eyeOutput.at<float>(0, 2) * width), (int) (eyeOutput.at<float>(0, 3) * height)) + offset;
+		leftEye->rightCorner = leftEye->leftCorner;
 	}
 
 private:

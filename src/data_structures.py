@@ -40,6 +40,9 @@ class Eye:
     def as_list(self):
         return self.left_corner.as_list() + self.right_corner.as_list()
 
+    def center(self):
+        return (self.left_corner + self.right_corner) / Point(2, 2)
+
 
 class Rect():
     def __init__(self, x, y, width=None, height=None):
