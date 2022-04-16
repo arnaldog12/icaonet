@@ -4,6 +4,7 @@
 //
 #define MODEL                       101
 #define MODEL_FACE_DETECTOR			102
+#define DLIB_LANDMARKS_DETECTOR		103
 
 // Next default values for new objects
 // 

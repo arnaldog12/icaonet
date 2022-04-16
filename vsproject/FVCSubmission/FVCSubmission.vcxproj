@@ -95,6 +95,8 @@
     <Import Project="PropertySheets\OpenCV3.4.2-StaticLibs.Release.x64.props" />
     <Import Project="PropertySheets\Tensorflow-Includes-CPU.props" />
     <Import Project="PropertySheets\Tensorflow-StaticLibs.Release.x64.CPU.props" />
+    <Import Project="PropertySheets\Dlib-Includes.props" />
+    <Import Project="PropertySheets\Dlib-StaticLibs.Release.x64.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
