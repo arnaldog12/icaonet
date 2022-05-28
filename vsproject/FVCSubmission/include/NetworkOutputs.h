@@ -10,8 +10,8 @@ public:
 	static std::vector<std::string> getOutputNames()
 	{
 		std::vector<std::string> outputNames = {
-			 "output_reqs/Sigmoid:0",
-			 "output_eyes/BiasAdd:0",
+			 "outputs/Sigmoid:0",
+			 "output_eyes/Sigmoid:0",
 		};
 		return outputNames;
 	}

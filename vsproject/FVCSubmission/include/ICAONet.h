@@ -13,11 +13,6 @@
 
 #include "opencv2/highgui/highgui.hpp" // debug only
 
-#include <dlib/image_processing.h>
-#include <dlib/image_processing/frontal_face_detector.h>
-#include <dlib/opencv/cv_image.h>
-
-
 using deeplearning::TensorflowGraph;
 
 #define IMAGE_SIZE cv::Size(160, 160)
@@ -27,41 +22,29 @@ class ICAONet
 public:
 	static EvaluationResults* run(cv::Mat imageColor, ErrorCode& errorCode)
 	{
+		Resource *resource = new Resource(101);
+		std::ostringstream ss(resource->asString());
+		TensorflowGraph *graph = new TensorflowGraph(ss);
+
 		EvaluationResults *results = new EvaluationResults();
 
-		dlib::frontal_face_detector detectorDlib = dlib::get_frontal_face_detector();
-
-		std::vector<cv::Rect> faceRects;
-		cv::Mat imageRGB;
-		cv::cvtColor(imageColor, imageRGB, cv::COLOR_BGR2RGB);
-
-		dlib::cv_image<dlib::bgr_pixel> img(imageRGB);
-		std::vector<dlib::rectangle> dets = detectorDlib(img, 0.0);
-		
-		if (dets.size() == 0)
+		cv::Point offset;
+		cv::Mat preprocessedImg = preprocessing(imageColor, errorCode, offset);
+		if (errorCode != ErrorCode::SUCCESS)
 			return results;
 
-		dlib::rectangle faceRect = dets.at(0);
-		cv::rectangle(imageColor, dlib2cv(faceRect), cv::Scalar(0, 255, 0));
+		cv::Mat im;
+		cv::resize(preprocessedImg, im, IMAGE_SIZE, 0.0, 0.0, cv::INTER_AREA);
+		im.convertTo(im, CV_32F, 1.0f / 255.0f);
 
-		Resource *resource = new Resource(103);
-		dlib::shape_predictor landmarksDetector;
-		std::istringstream landmarkContent(resource->asString());
-		dlib::deserialize(landmarksDetector, landmarkContent);
+		TensorflowPlaceholder::tensorDict feedDict;
+		feedDict.push_back(TensorflowPlaceholder::tensor("input:0", TensorflowUtils::mat2tensor<float>(im)));
+		std::vector<std::vector<cv::Mat>> graphOutputs = graph->run(feedDict, NetworkOutputs::getOutputNames());
 
-		dlib::full_object_detection shape = landmarksDetector(img, faceRect);
+		NetworkOutputs::parseRequirements(graphOutputs, results->photoReqs);
+		NetworkOutputs::parseEyes(graphOutputs, results->rightEye, results->leftEye, im.size(), cv::Point(0, 0));
 
-		std::vector<cv::Point> landmarks;
-		std::vector<cv::Point> shapePoints = dlib2cv(shape);
-		results->rightEye = new Eye(shapePoints[16], shapePoints[18]);
-		results->leftEye = new Eye(shapePoints[20], shapePoints[22]);
-		
-		//cv::circle(imageColor, results->rightEye->leftCorner, 3, cv::Scalar(255, 0, 0));
-		//cv::circle(imageColor, results->rightEye->rightCorner, 3, cv::Scalar(0, 255, 0));
-		//cv::circle(imageColor, results->leftEye->leftCorner, 3, cv::Scalar(0, 0, 255));
-		//cv::circle(imageColor, results->leftEye->rightCorner, 3, cv::Scalar(0, 255, 255));
-		//cv::imshow("result", imageColor);
-		//cv::waitKey();
+		//printDebug(graphOutputs, results, im);
 
 		errorCode = ErrorCode::SUCCESS;
 		return results;
@@ -129,26 +112,5 @@ private:
 		cv::circle(image, results->leftEye->rightCorner, 3, cv::Scalar(0, 255, 255));
 		cv::imshow("result", image);
 		cv::waitKey();
-	}
-
-	__inline static cv::Rect dlib2cv(dlib::rectangle& rec)
-	{
-		return cv::Rect(rec.left(), rec.top(), rec.width(), rec.height());
-	}
-
-	__inline static cv::Point dlib2cv(dlib::point& pt)
-	{
-		return cv::Point(pt.x(), pt.y());
-	}
-
-	__inline static  std::vector<cv::Point> dlib2cv(dlib::full_object_detection shape)
-	{
-		unsigned long size = shape.num_parts();
-		std::vector<cv::Point> vec;
-
-		for (unsigned long i = 0; i < size; i++)
-			vec.push_back(dlib2cv(shape.part(i)));
-
-		return vec;
 	}
 };
