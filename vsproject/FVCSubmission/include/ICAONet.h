@@ -42,9 +42,9 @@ public:
 		std::vector<std::vector<cv::Mat>> graphOutputs = graph->run(feedDict, NetworkOutputs::getOutputNames());
 
 		NetworkOutputs::parseRequirements(graphOutputs, results->photoReqs);
-		NetworkOutputs::parseEyes(graphOutputs, results->rightEye, results->leftEye, im.size(), cv::Point(0, 0));
+		NetworkOutputs::parseEyes(graphOutputs, results->rightEye, results->leftEye, preprocessedImg.size(), offset);
 
-		//printDebug(graphOutputs, results, im);
+		//printDebug(graphOutputs, results, imageColor);
 
 		errorCode = ErrorCode::SUCCESS;
 		return results;
