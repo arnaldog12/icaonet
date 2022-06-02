@@ -10,7 +10,7 @@ public:
 	static std::vector<std::string> getOutputNames()
 	{
 		std::vector<std::string> outputNames = {
-			 "outputs/Sigmoid:0",
+			 "output_reqs/Sigmoid:0",
 			 "output_eyes/Sigmoid:0",
 		};
 		return outputNames;
