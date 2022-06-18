@@ -10,7 +10,7 @@ public:
 	static std::vector<std::string> getOutputNames()
 	{
 		std::vector<std::string> outputNames = {
-			 "output_reqs/Sigmoid:0",
+			 //"output_reqs/Sigmoid:0",
 			 "output_eyes/Sigmoid:0",
 		};
 		return outputNames;
@@ -26,7 +26,7 @@ public:
 
 	static void parseEyes(std::vector<std::vector<cv::Mat>> graphOutputs, Eye* &rightEye, Eye* &leftEye, cv::Size imSize, cv::Point offset)
 	{
-		cv::Mat eyeOutput = graphOutputs[1][0];
+		cv::Mat eyeOutput = graphOutputs[0][0];
 		int width = imSize.width;
 		int height = imSize.height;
 		rightEye->leftCorner = cv::Point((int) (eyeOutput.at<float>(0, 0) * width), (int) (eyeOutput.at<float>(0, 1) * height)) + offset;

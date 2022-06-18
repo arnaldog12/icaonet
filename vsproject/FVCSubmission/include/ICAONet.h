@@ -15,7 +15,7 @@
 
 using deeplearning::TensorflowGraph;
 
-#define IMAGE_SIZE cv::Size(256, 256)
+#define IMAGE_SIZE cv::Size(160, 160)
 
 class ICAONet
 {
@@ -38,10 +38,10 @@ public:
 		im.convertTo(im, CV_32F, 1.0f / 255.0f);
 
 		TensorflowPlaceholder::tensorDict feedDict;
-		feedDict.push_back(TensorflowPlaceholder::tensor("input:0", TensorflowUtils::mat2tensor<float>(im)));
+		feedDict.push_back(TensorflowPlaceholder::tensor("conv2d_9_input:0", TensorflowUtils::mat2tensor<float>(im)));
 		std::vector<std::vector<cv::Mat>> graphOutputs = graph->run(feedDict, NetworkOutputs::getOutputNames());
 
-		NetworkOutputs::parseRequirements(graphOutputs, results->photoReqs);
+		//NetworkOutputs::parseRequirements(graphOutputs, results->photoReqs);
 		NetworkOutputs::parseEyes(graphOutputs, results->rightEye, results->leftEye, preprocessedImg.size(), offset);
 
 		//printDebug(graphOutputs, results, imageColor);
@@ -89,27 +89,28 @@ private:
 	static void printDebug(std::vector<std::vector<cv::Mat>> graphOutputs, EvaluationResults *results, cv::Mat image)
 	{
 		std::cout << "Requirements:" << std::endl;
-		int nReqs = graphOutputs[0][0].size().width;
 		std::vector<Requirement *> reqs = results->photoReqs->getRequirements();
-		for (int i = 0; i < graphOutputs[0][0].size().width; i++) 
-		{
-			std::cout << graphOutputs[0][0].at<float>(0, i) << " ";
-			std::cout << reqs[i]->complianceDegree;
-			std::cout << std::endl;
-		}
+		//for (int i = 0; i < graphOutputs[0][0].size().width; i++) 
+		//{
+		//	std::cout << graphOutputs[0][0].at<float>(0, i) << " ";
+		//	std::cout << reqs[i]->complianceDegree;
+		//	std::cout << std::endl;
+		//}
+		for (auto it = reqs.begin(); it != reqs.end(); it++) 
+			std::cout << (*it)->complianceDegree << std::endl;
 
 		std::cout << "\nEyes:" << std::endl;
-		int nEyes = graphOutputs[1][0].size().width;
-		cv::Mat eyeOutput = graphOutputs[1][0];
+		int nEyes = graphOutputs[0][0].size().width;
+		cv::Mat eyeOutput = graphOutputs[0][0];
 		for (int i = 0; i < nEyes; i++)
 			std::cout << eyeOutput.at<float>(0, i) << std::endl;
 		std::cout << results->rightEye->toString() << std::endl;
 		std::cout << results->leftEye->toString() << std::endl;
 		
-		cv::circle(image, results->rightEye->leftCorner, 3, cv::Scalar(255, 0, 0));
-		cv::circle(image, results->rightEye->rightCorner, 3, cv::Scalar(0, 255, 0));
-		cv::circle(image, results->leftEye->leftCorner, 3, cv::Scalar(0, 0, 255));
-		cv::circle(image, results->leftEye->rightCorner, 3, cv::Scalar(0, 255, 255));
+		cv::circle(image, results->rightEye->leftCorner, 1, cv::Scalar(255, 0, 0), 5);
+		cv::circle(image, results->rightEye->rightCorner, 1, cv::Scalar(0, 255, 0), 5);
+		cv::circle(image, results->leftEye->leftCorner, 1, cv::Scalar(0, 0, 255), 5);
+		cv::circle(image, results->leftEye->rightCorner, 1, cv::Scalar(0, 255, 255), 5);
 		cv::imshow("result", image);
 		cv::waitKey();
 	}
