@@ -44,7 +44,7 @@ public:
 		NetworkOutputs::parseRequirements(graphOutputs, results->photoReqs);
 		NetworkOutputs::parseEyes(graphOutputs, results->rightEye, results->leftEye, preprocessedImg.size(), offset);
 
-		printDebug(graphOutputs, results, imageColor);
+		//printDebug(graphOutputs, results, imageColor);
 
 		errorCode = ErrorCode::SUCCESS;
 		return results;
@@ -106,10 +106,9 @@ private:
 		std::cout << results->rightEye->toString() << std::endl;
 		std::cout << results->leftEye->toString() << std::endl;
 
-		cv::circle(image, results->rightEye->leftCorner, 1, cv::Scalar(255, 0, 0), 5);
-		cv::circle(image, results->rightEye->rightCorner, 1, cv::Scalar(0, 255, 0), 5);
-		cv::circle(image, results->leftEye->leftCorner, 1, cv::Scalar(0, 0, 255), 5);
-		cv::circle(image, results->leftEye->rightCorner, 1, cv::Scalar(0, 255, 255), 5);
+		// right and left corners are equal
+		cv::circle(image, results->rightEye->leftCorner, 1, cv::Scalar(0, 255, 0), 5);
+		cv::circle(image, results->leftEye->leftCorner, 1, cv::Scalar(0, 255, 0), 5);
 		cv::imshow("result", image);
 		cv::waitKey();
 	}

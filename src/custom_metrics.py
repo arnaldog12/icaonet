@@ -99,7 +99,7 @@ def eye_localization_fvc(eyes_centers_true, eyes_centers_pred):
 
 
 def eye_localization_accuracy(
-    eyes_centers_true, eyes_centers_pred, min_threshold=0.0, max_threshold=tf.float32.max,
+    eyes_centers_true, eyes_centers_pred, min_threshold=0.0, max_threshold=0.1,
 ):
     d_eye = eye_localization_fvc(eyes_centers_true, eyes_centers_pred)
     d_eye_threshold = tf.where((d_eye >= min_threshold) & (d_eye < max_threshold))
