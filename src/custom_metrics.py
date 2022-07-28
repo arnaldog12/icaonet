@@ -1,4 +1,3 @@
-import numpy as np
 import tensorflow as tf
 from keras import backend as K
 
@@ -58,7 +57,7 @@ def equal_error_rate(y_true, y_pred):
     body = lambda t, fpr, fnr: (
         t + 0.001,
         tf.divide(tf.count_nonzero(tf.greater_equal(scores_imp, t), dtype=tf.float32), n_imp),
-        tf.divide(tf.count_nonzero(tf.less(scores_gen, t), dtype=tf.float32), n_gen)
+        tf.divide(tf.count_nonzero(tf.less(scores_gen, t), dtype=tf.float32), n_gen),
     )
     t, fpr, fnr = tf.while_loop(cond, body, loop_vars, back_prop=False)
     eer = (fpr + fnr) / 2
@@ -77,5 +76,32 @@ def fbeta(y_true, y_pred, beta=2):
     r = tp / (tp + fn + K.epsilon())
 
     num = (1 + beta ** 2) * (p * r)
-    den = (beta ** 2 * p + r + K.epsilon())
+    den = beta ** 2 * p + r + K.epsilon()
     return K.mean(num / den)
+
+
+def euclidean_distance(x, y):
+    return tf.sqrt(tf.reduce_sum(tf.square(x - y), 1))
+
+
+def eye_localization_fvc(eyes_centers_true, eyes_centers_pred):
+    centers_true_right = eyes_centers_true[:, :2]
+    centers_true_left = eyes_centers_true[:, 2:]
+    centers_pred_right = eyes_centers_pred[:, :2]
+    centers_pred_left = eyes_centers_pred[:, 2:]
+
+    num_left = euclidean_distance(centers_true_left, centers_pred_left)
+    num_right = euclidean_distance(centers_true_right, centers_pred_right)
+    num = tf.where(num_right >= num_left, num_right, num_left)
+    den = euclidean_distance(centers_true_right, centers_true_left)
+    d_eye = num / den
+    return d_eye
+
+
+def eye_localization_accuracy(
+    eyes_centers_true, eyes_centers_pred, min_threshold=0.0, max_threshold=tf.float32.max,
+):
+    d_eye = eye_localization_fvc(eyes_centers_true, eyes_centers_pred)
+    d_eye_threshold = tf.where((d_eye >= min_threshold) & (d_eye < max_threshold))
+    d_eye_acc = tf.size(d_eye_threshold) / tf.size(d_eye)
+    return d_eye_acc
