@@ -1,8 +1,9 @@
-import tensorflow as tf
 import math
 
+import tensorflow as tf
 
-def wing_loss(landmarks, labels, w=10.0, epsilon=2.0):
+
+def wing_loss(landmarks, labels, w=100.0, epsilon=2.0):
     """
     Arguments:
         landmarks, labels: float tensors with shape [batch_size, 4].
