@@ -105,3 +105,12 @@ def eye_localization_accuracy(
     d_eye_threshold = tf.where((d_eye >= min_threshold) & (d_eye < max_threshold))
     d_eye_acc = tf.size(d_eye_threshold) / tf.size(d_eye)
     return d_eye_acc
+
+
+def dice_coef(y_true, y_pred, smooth):
+    # https://stackoverflow.com/questions/72195156/correct-implementation-of-dice-loss-in-tensorflow-keras
+    y_true_f = K.flatten(y_true)
+    y_pred_f = K.flatten(y_pred)
+    intersection = K.sum(y_true_f * y_pred_f)
+    dice = (2.0 * intersection + smooth) / (K.sum(y_true_f) + K.sum(y_pred_f) + smooth)
+    return dice
