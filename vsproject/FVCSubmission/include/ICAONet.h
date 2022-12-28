@@ -29,7 +29,8 @@ public:
 		EvaluationResults *results = new EvaluationResults();
 
 		cv::Point offset;
-		cv::Mat preprocessedImg = preprocessing(imageColor, errorCode, offset);
+		cv::Rect faceRect;
+		cv::Mat preprocessedImg = preprocessing(imageColor, errorCode, offset, faceRect);
 		if (errorCode != ErrorCode::SUCCESS)
 			return results;
 
@@ -42,8 +43,20 @@ public:
 		std::vector<std::vector<cv::Mat>> graphOutputs = graph->run(feedDict, NetworkOutputs::getOutputNames());
 
 		NetworkOutputs::parseRequirements(graphOutputs, results->photoReqs);
-		NetworkOutputs::parseEyes(graphOutputs, results->rightEye, results->leftEye, preprocessedImg.size(), offset);
+		//NetworkOutputs::parseEyes(graphOutputs, results->rightEye, results->leftEye, preprocessedImg.size(), offset);
 
+		cv::Mat patch = getPatchForPixelation(imageColor(faceRect).clone());
+		patch.convertTo(patch, CV_32F, 1.0 / 255.0f);
+		feedDict.pop_back();
+		feedDict.push_back(TensorflowPlaceholder::tensor("input:0", TensorflowUtils::mat2tensor<float>(patch)));
+
+		std::vector<std::string> outputNames = { "output_pixelation/Sigmoid:0" };
+		graphOutputs = graph->run(feedDict, outputNames);
+
+		int complianceDegree = (int)(graphOutputs[0][0].at<float>(0, 0) * 100.0f);
+		results->photoReqs->pixelation->complianceDegree = complianceDegree;
+		results->photoReqs->pixelation->value = (complianceDegree >= 50) ? REQUIREMENT_VALUE::COMPLIANT : REQUIREMENT_VALUE::NON_COMPLIANT;
+	
 		//printDebug(graphOutputs, results, imageColor);
 
 		errorCode = ErrorCode::SUCCESS;
@@ -51,9 +64,9 @@ public:
 	}
 
 private:
-	static cv::Mat preprocessing(cv::Mat bgrImage, ErrorCode &errorCode, cv::Point& offset)
+	static cv::Mat preprocessing(cv::Mat bgrImage, ErrorCode &errorCode, cv::Point& offset, cv::Rect& faceRect)
 	{
-		cv::Rect faceRect = FaceDetector::run(bgrImage);
+		faceRect = FaceDetector::run(bgrImage);
 		if (faceRect.empty())
 		{
 			errorCode = ErrorCode::CANNOT_DETECT_FACE;
@@ -86,6 +99,24 @@ private:
 		return result;
 	}
 
+	static cv::Mat getPatchForPixelation(cv::Mat preprocessedImg, int size = 160)
+	{
+		int halfSize = size / 2;
+		cv::Size imSize = preprocessedImg.size();
+		cv::Point centerFace = cv::Point(imSize.width / 2, imSize.height / 2);
+
+		int left = abs(min(0, centerFace.x - halfSize));
+		int top = abs(min(0, centerFace.y - halfSize));
+		int right = max(0, (centerFace.x + halfSize) - imSize.width);
+		int bottom = max(0, (centerFace.y + halfSize) - imSize.height);
+
+		cv::Mat imRes;
+		cv::copyMakeBorder(preprocessedImg, imRes, top, bottom, left, right, cv::BORDER_CONSTANT, 0);
+		cv::Rect crop = cv::Rect(cv::Point(centerFace.x - halfSize, centerFace.y - halfSize), cv::Size(size, size));
+		cv::Mat result = imRes(crop).clone();
+		return result;
+	}
+
 	static void printDebug(std::vector<std::vector<cv::Mat>> graphOutputs, EvaluationResults *results, cv::Mat image)
 	{
 		std::cout << "Requirements:" << std::endl;
@@ -98,18 +129,21 @@ private:
 			std::cout << std::endl;
 		}
 
-		std::cout << "\nEyes:" << std::endl;
-		int nEyes = graphOutputs[1][0].size().width;
-		cv::Mat eyeOutput = graphOutputs[1][0];
-		for (int i = 0; i < nEyes; i++)
-			std::cout << eyeOutput.at<float>(0, i) << std::endl;
-		std::cout << results->rightEye->toString() << std::endl;
-		std::cout << results->leftEye->toString() << std::endl;
+		std::cout << "\nSpecif Requirement" << std::endl;
+		std::cout << graphOutputs[1][0].at<float>(0, 0) << std::endl;
+
+		//std::cout << "\nEyes:" << std::endl;
+		//int nEyes = graphOutputs[1][0].size().width;
+		//cv::Mat eyeOutput = graphOutputs[1][0];
+		//for (int i = 0; i < nEyes; i++)
+		//	std::cout << eyeOutput.at<float>(0, i) << std::endl;
+		//std::cout << results->rightEye->toString() << std::endl;
+		//std::cout << results->leftEye->toString() << std::endl;
 
 		// right and left corners are equal
-		cv::circle(image, results->rightEye->leftCorner, 1, cv::Scalar(0, 255, 0), 5);
-		cv::circle(image, results->leftEye->leftCorner, 1, cv::Scalar(0, 255, 0), 5);
-		cv::imshow("result", image);
-		cv::waitKey();
+		//cv::circle(image, results->rightEye->leftCorner, 1, cv::Scalar(0, 255, 0), 5);
+		//cv::circle(image, results->leftEye->leftCorner, 1, cv::Scalar(0, 255, 0), 5);
+		//cv::imshow("result", image);
+		//cv::waitKey();
 	}
 };

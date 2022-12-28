@@ -11,7 +11,6 @@ public:
 	{
 		std::vector<std::string> outputNames = {
 			 "outputs/Sigmoid:0",
-			 "output_eyes/Sigmoid:0",
 		};
 		return outputNames;
 	}
