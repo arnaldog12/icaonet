@@ -29,9 +29,16 @@ int main(int argc, char *argv[])
 		outFile->write(faceImageFile, errorCodeToRetVal(errorCode));
 	else
 	{
-		EvaluationResults *results = ICAONet::run(im, errorCode);
-		outFile->write(faceImageFile, errorCodeToRetVal(errorCode), results);
-		delete results;
+		Eye *rightEye = new Eye();
+		Eye *leftEye = new Eye();
+
+		PhotographicRequirements *reqs = ICAONet::run(im, errorCode);
+
+		outFile->write(faceImageFile, errorCodeToRetVal(errorCode), rightEye, leftEye, reqs);
+
+		delete rightEye;
+		delete leftEye;
+		delete reqs;
 	}
 	
 	outFile->close();
