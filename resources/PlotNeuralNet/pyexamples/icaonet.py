@@ -50,7 +50,7 @@ arch = [
     to_GlobalAvgPool(name="avg_pool", s_filer=256, offset="(3,6,0)", to="(conv_5-east)", width=2, height=2, depth=24, opacity=0.5),
     to_connection2("conv_5", "avg_pool"),
 
-    # requirements
+    # requirements branch
     to_SoftMax(name="dense_1", s_filer=64, offset="(2,0,0)", to="(avg_pool-east)", width=2, height=2, depth=12, opacity=0.5, fill="\DcnvColor"),
     to_connection("avg_pool", "dense_1"),
 
@@ -60,7 +60,7 @@ arch = [
     to_SoftMax(name="outputs", s_filer=23, offset="(2,0,0)", to="(dense_2-east)", width=2, height=2, depth=5, opacity=0.5, caption="multilabel \\\\ (supervised)"),
     to_connection("dense_2", "outputs"),
 
-    # eye landmarks
+    # eye landmarks branch
     to_SoftMax(name="dense_3", s_filer=64, offset="(0,0,-6)", to="(avg_pool-east)", width=2, height=2, depth=12, opacity=0.5, fill="\DcnvColor"),
     to_connection("avg_pool", "dense_3"),
 
@@ -69,6 +69,22 @@ arch = [
 
     to_SoftMax(name="outputs_eyes", s_filer=4, offset="(2,0,0)", to="(dense_4-east)", width=2, height=2, depth=2, opacity=0.5, caption="landmarks \\\\ (supervised)"),
     to_connection("dense_4", "outputs_eyes"),
+
+    # pixelation branch
+    to_GlobalAvgPool(name="avg_pool_pixelation", s_filer=64, offset="(2,6,0)", to="(pool_2-east)", width=2, height=2, depth=12, opacity=0.5),
+    to_connection2("pool_2", "avg_pool_pixelation"),
+
+    to_SoftMax(name="dense_5", s_filer=128, offset="(1.5,0,0)", to="(avg_pool_pixelation-east)", width=2, height=2, depth=24, opacity=0.5, fill="\DcnvColor"),
+    to_connection("avg_pool_pixelation", "dense_5"),
+
+    to_SoftMax(name="dense_6", s_filer=128, offset="(1.5,0,0)", to="(dense_5-east)", width=2, height=2, depth=24, opacity=0.5, fill="\DcnvColor"),
+    to_connection("dense_5", "dense_6"),
+
+    to_SoftMax(name="dense_7", s_filer=128, offset="(1.5,0,0)", to="(dense_6-east)", width=2, height=2, depth=24, opacity=0.5, fill="\DcnvColor"),
+    to_connection("dense_6", "dense_7"),
+
+    to_SoftMax(name="outputs_pixelation", s_filer=1, offset="(1.5,0,0)", to="(dense_7-east)", width=2, height=2, depth=1, opacity=0.5, caption="pixelation \\\\ (supervised)"),
+    to_connection("dense_7", "outputs_pixelation"),
 
     to_end(),
     ]
