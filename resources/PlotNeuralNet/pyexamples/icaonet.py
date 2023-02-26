@@ -1,4 +1,3 @@
-
 import sys
 sys.path.append('../')
 from pycore.tikzeng import *
@@ -47,10 +46,11 @@ arch = [
     to_ConvSoftMax(name="decoded", s_filer=160, offset="(2,0,0)", to="(1_conv-east)", width=1, height=40, depth=40, caption="decoded \\\\ (unsupervised)"),
     to_connection("1_conv", "decoded"),
 
-    # classifier
+    # global avg pool
     to_GlobalAvgPool(name="avg_pool", s_filer=256, offset="(3,6,0)", to="(conv_5-east)", width=2, height=2, depth=24, opacity=0.5),
     to_connection2("conv_5", "avg_pool"),
 
+    # requirements
     to_SoftMax(name="dense_1", s_filer=64, offset="(2,0,0)", to="(avg_pool-east)", width=2, height=2, depth=12, opacity=0.5, fill="\DcnvColor"),
     to_connection("avg_pool", "dense_1"),
 
@@ -60,6 +60,15 @@ arch = [
     to_SoftMax(name="outputs", s_filer=23, offset="(2,0,0)", to="(dense_2-east)", width=2, height=2, depth=5, opacity=0.5, caption="multilabel \\\\ (supervised)"),
     to_connection("dense_2", "outputs"),
 
+    # eye landmarks
+    to_SoftMax(name="dense_3", s_filer=64, offset="(0,0,-6)", to="(avg_pool-east)", width=2, height=2, depth=12, opacity=0.5, fill="\DcnvColor"),
+    to_connection("avg_pool", "dense_3"),
+
+    to_SoftMax(name="dense_4", s_filer=64, offset="(2,0,0)", to="(dense_3-east)", width=2, height=2, depth=12, opacity=0.5, fill="\DcnvColor"),
+    to_connection("dense_3", "dense_4"),
+
+    to_SoftMax(name="outputs_eyes", s_filer=4, offset="(2,0,0)", to="(dense_4-east)", width=2, height=2, depth=2, opacity=0.5, caption="landmarks \\\\ (supervised)"),
+    to_connection("dense_4", "outputs_eyes"),
 
     to_end(),
     ]
