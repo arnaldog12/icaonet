@@ -25,6 +25,7 @@
     <ClInclude Include="include\deeplearning\TensorflowGraph.h" />
     <ClInclude Include="include\deeplearning\TensorflowPlaceholder.h" />
     <ClInclude Include="include\deeplearning\TensorflowUtils.h" />
+    <ClInclude Include="include\EvaluationResults.h" />
     <ClInclude Include="include\Eye.h" />
     <ClInclude Include="include\FaceDetector.h" />
     <ClInclude Include="include\FileUtils.h" />
