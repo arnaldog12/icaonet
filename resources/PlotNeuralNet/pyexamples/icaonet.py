@@ -57,7 +57,7 @@ arch = [
     to_SoftMax(name="dense_2", s_filer=32, offset="(2,0,0)", to="(dense_1-east)", width=2, height=2, depth=6, opacity=0.5, fill="\DcnvColor"),
     to_connection("dense_1", "dense_2"),
 
-    to_SoftMax(name="outputs", s_filer=23, offset="(2,0,0)", to="(dense_2-east)", width=2, height=2, depth=5, opacity=0.5, caption="multilabel \\\\ (supervised)"),
+    to_SoftMax(name="outputs", s_filer=23, offset="(2,0,0)", to="(dense_2-east)", width=2, height=2, depth=5, opacity=0.5, caption="requirements \\\\ (supervised)"),
     to_connection("dense_2", "outputs"),
 
     # eye landmarks branch
