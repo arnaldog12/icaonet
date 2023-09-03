@@ -3,6 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - python==3.7.10
   - keras-gpu==2.3.1
   - ipython
   - jupyter
@@ -11,7 +12,7 @@ dependencies:
   - scikit-learn=0.22.1
   - h5py==2.10.0
   - seaborn
-  - mlflow
+  - mlflow==1.11.0
   - numpy[version='<1.17']
   - imbalanced-learn=0.6.2
   - pip:
