@@ -4,6 +4,16 @@
 
 ![](resources/icaonet.png)
 
+# Runing ICAONet
+
+To run ICAONet on your own image, you can either run the predict script:
+
+```py
+python predict.py path/to/image.png 
+```
+
+or you can run the [Inference Notebook][inference-notebook].
+
 # Published Results
 
 If you are looking for the code published on **Expert Systems with Applications** or the **FVC-ongoing**, please go to [v0.6.4 branch][paper-branch]. The Jupyter notebook is located on `notebooks/supervised_unsupervised/Multilearning.ipynb` and the submited C++ application is under `vsproject` folder.
@@ -27,3 +37,4 @@ abstract = {The face is considered the primary biometric trait for machine-reada
 
 [miniconda]: https://conda.io/miniconda.html
 [paper-branch]: https://github.com/arnaldog12/icaonet/tree/v0.6.4
+[inference-notebook]: https://github.com/arnaldog12/icaonet/blob/master/notebooks/Inference.ipynb
